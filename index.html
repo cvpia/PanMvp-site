@@ -36,7 +36,7 @@
           <p class="hero-copy">PanMVP 把网盘文件、资源搜索、302/HLS 播放、TMDB 刮削、订阅任务、Emby 与运行日志收进一个本地控制中枢。数据留在你的电脑，体验接近成熟的媒体服务器。</p>
           <div class="hero-actions">
             <a class="button primary" href="./guide.html#quickstart">查看安装说明 →</a>
-            <a class="button" href="./changelog.html">v0.2.0 更新内容</a>
+            <a class="button" href="./changelog.html">v0.2.1 更新内容</a>
           </div>
           <div class="hero-badges">
             <span class="pill">本机 FastAPI</span>
@@ -44,6 +44,7 @@
             <span class="pill">SQLite 加密凭据</span>
             <span class="pill">TMDB 元数据</span>
             <span class="pill">全链路日志</span>
+            <span class="pill">Docker 镜像可选</span>
           </div>
         </div>
 
@@ -93,15 +94,15 @@
           <p>从 115 登录、浏览和转存，到播放、刮削、订阅和 Emby 媒体库整理；每个关键动作都留下可查询日志。</p>
         </div>
         <div class="feature-grid">
-          <article class="feature-card"><div class="feature-icon">◫</div><h3>115 原生文件管理</h3><p>浏览、下载、重命名、复制、移动、删除、官方分享、目录树导出和云下载，不修改网盘源文件结构。</p><span class="tag">115 WEBAPI</span></article>
+          <article class="feature-card"><div class="feature-icon">◫</div><h3>115 原生文件管理</h3><p>浏览、下载、重命名、复制、移动、删除、官方分享和云下载，不修改网盘源文件结构。</p><span class="tag">115 WEBAPI</span></article>
           <article class="feature-card"><div class="feature-icon">▶</div><h3>302 + HLS 双播放链路</h3><p>优先 302 直链，兼容失败时自动回退本机 FFmpeg HLS；代理播放完整支持 Range 和拖动进度。</p><span class="tag">RANGE READY</span></article>
-          <article class="feature-card"><div class="feature-icon">✦</div><h3>独立 TMDB 刮削器</h3><p>文件名清洗、TMDB/IMDb ID 识别、候选评分、演员与剧照补全、Emby/Kodi 兼容 NFO，一次入库。</p><span class="tag">V0.2.0 重点</span></article>
+          <article class="feature-card"><div class="feature-icon">✦</div><h3>独立 TMDB 刮削器</h3><p>文件名清洗、TMDB/IMDb ID 识别、候选评分、演员与剧照补全、Emby/Kodi 兼容 NFO，一次入库。</p><span class="tag">V0.2.1 重点</span></article>
           <article class="feature-card"><div class="feature-icon">≋</div><h3>任务控制中心</h3><p>串行任务、断点继续、状态进度、失败重试和新增的一键删除；所有任务都有可追踪结果。</p><span class="tag">ONE-CLICK CLEAN</span></article>
           <article class="feature-card"><div class="feature-icon">◎</div><h3>115 账号资料卡</h3><p>清晰展示头像、用户名、账号 ID、VIP 状态、到期时间和空间使用情况，账号状态一眼可见。</p><span class="tag">PROFILE CARD</span></article>
           <article class="feature-card"><div class="feature-icon">⌕</div><h3>资源发现与订阅</h3><p>聚影资源搜索、115 分享转存、磁力/电驴云下载，以及 TMDB、豆瓣、Bangumi、AniList 订阅来源。</p><span class="tag">DISCOVERY</span></article>
           <article class="feature-card"><div class="feature-icon">▤</div><h3>运行日志与审计</h3><p>按钮点击、API 请求、状态码、耗时、用户和错误按日保存，并支持保留天数和每日清理时间。</p><span class="tag">QUERYABLE</span></article>
           <article class="feature-card"><div class="feature-icon">⌂</div><h3>本机优先与隐私</h3><p>FastAPI + SQLite + Vue，本地运行；Cookie、API Key 和通知凭据加密保存，不依赖第三方控制面。</p><span class="tag">LOCAL FIRST</span></article>
-          <article class="feature-card"><div class="feature-icon">↗</div><h3>Emby / STRM 工作流</h3><p>生成本地 STRM 与元数据目录，Emby 播放时动态解析 115 直链，网盘媒体库保持整洁。</p><span class="tag">EMBY READY</span></article>
+          <article class="feature-card"><div class="feature-icon">↗</div><h3>Emby / STRM 工作流</h3><p>设置中配置 115 与本地目录映射，目录树清单落盘；全量重建或增量生成 STRM，Emby 播放时动态解析 115 直链。</p><span class="tag">INCREMENTAL</span></article>
         </div>
       </div>
     </section>
@@ -111,7 +112,7 @@
         <div class="spotlight">
           <p class="eyebrow">TMDB ONLY SCRAPER</p>
           <h3>不是“搜到第一条就入库”，而是真正按候选评分刮削</h3>
-          <p>v0.2.0 将影院刮削重构为独立服务：先解析发布文件名和外部 ID，再综合标题、年份、媒体类型、热度和票数选择最佳结果。命中不稳定时，可以在影院详情中查看 TMDB 候选并手动绑定。</p>
+          <p>影院刮削使用独立服务：先解析发布文件名和外部 ID，再综合标题、年份、媒体类型、热度和票数选择最佳结果。命中不稳定时，可以在影院详情中查看 TMDB 候选并手动绑定。</p>
           <ul class="check-list">
             <li>支持 <code>tmdb-693134</code>、<code>tt...</code> 等外部标识</li>
             <li>自动清洗 2160p、WEB-DL、HEVC、国语中字等发布信息</li>
@@ -148,7 +149,7 @@
           <p>四步完成影院入库，任务中心实时呈现进度；失败条目保留上下文，便于继续和校准。</p>
         </div>
         <div class="flow">
-          <article class="flow-step"><b>01 / INDEX</b><h3>选择 115 目录</h3><p>跨目录选择入库来源，生成官方目录树清单并缓存，减少重复扫描。</p></article>
+          <article class="flow-step"><b>01 / INDEX</b><h3>选择 115 目录</h3><p>直接递归读取 115 目录，并将目录树清单保存在本地输出目录，不再依赖官方导出文件。</p></article>
           <article class="flow-step"><b>02 / STRM</b><h3>生成媒体结构</h3><p>在本地生成电影、剧集、季和集目录，以及可长期播放的 STRM 文件。</p></article>
           <article class="flow-step"><b>03 / SCRAPE</b><h3>TMDB 匹配</h3><p>独立刮削器识别片名和 ID，拉取完整详情、海报、背景图与 NFO。</p></article>
           <article class="flow-step"><b>04 / PLAY</b><h3>播放与整理</h3><p>在 PanMVP 或 Emby 中播放，字幕、弹幕、进度和剧集切换保持可用。</p></article>
@@ -160,13 +161,17 @@
       <div class="container split">
         <div class="spotlight">
           <p class="eyebrow">QUICK START</p>
-          <h3>Windows 本机，两条命令启动</h3>
-          <p>项目只使用本机 Python、Node 和 SQLite，不依赖 Docker。首次启动后在网页中创建管理员账号。</p>
+          <h3>Windows 本机运行，两条命令启动</h3>
+          <p>默认使用本机 Python、Node 和 SQLite；也提供官方 Docker 镜像 <code>xxoo520zls/panmvp:0.2.1</code>。首次启动后在网页中创建管理员账号。</p>
           <pre><code>Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\local.ps1 setup
 .\scripts\local.ps1 start</code></pre>
           <p>默认访问地址：<code>http://localhost:8787</code></p>
-          <div class="hero-actions"><a class="button primary" href="./guide.html#installation">完整安装教程</a><a class="button" href="./guide.html#troubleshooting">故障排查</a></div>
+          <p>Docker 部署可选，一条命令即可启动：</p>
+          <pre><code>docker run -d --name panmvp -p 8787:8787 \
+  -v panmvp-data:/data \
+  xxoo520zls/panmvp:0.2.1</code></pre>
+          <div class="hero-actions"><a class="button primary" href="./guide.html#installation">完整安装教程</a><a class="button" href="./guide.html#docker">Docker 部署</a><a class="button" href="./guide.html#troubleshooting">故障排查</a></div>
         </div>
         <div class="spotlight">
           <p class="eyebrow">FIRST CONFIG</p>
@@ -175,11 +180,11 @@
             <li>创建管理员账号，密码不写死、不默认生成。</li>
             <li>进入“系统设置 → 115 网盘”，扫码或填写 Cookie。</li>
             <li>在高级设置中配置 TMDB API Key，影院刮削固定使用 TMDB。</li>
-            <li>按需配置 STRM 根目录、FFmpeg / FFprobe 和网络代理。</li>
-            <li>进入影院选择目录，依次运行目录树、STRM 和刮削任务。</li>
+            <li>在“系统设置 → STRM 生成”配置 115 目录与本地输出目录映射。</li>
+            <li>按需配置 TMDB、STRM 根目录、FFmpeg / FFprobe 和网络代理，再进入影院运行刮削任务。</li>
             <li>在任务中心和运行日志中检查每条按钮操作与 API 请求。</li>
           </ol>
-          <div class="notice"><strong>版本：</strong>官网当前对应 PanMVP <code>0.2.0</code>。更新日志会记录每项用户可见功能。</div>
+          <div class="notice"><strong>版本：</strong>官网当前对应 PanMVP <code>0.2.1</code>。更新日志会记录每项用户可见功能。</div>
         </div>
       </div>
     </section>

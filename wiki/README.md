@@ -5,6 +5,7 @@ PanMVP 是本地优先的 115 网盘媒体网关。本目录同时作为静态�
 ## 目录
 
 - [安装与升级](installation.md)
+- [目录树与 STRM 生成](strm.md)
 - [影院与 TMDB 刮削](cinema.md)
 - [任务、日志与运维](operations.md)
 - [故障排查](troubleshooting.md)

@@ -28,8 +28,10 @@
       <strong>PanMVP Wiki</strong>
       <a href="#quickstart">快速开始</a>
       <a href="#installation">安装与升级</a>
+      <a href="#docker">Docker 部署</a>
       <a href="#115">115 网盘</a>
       <a href="#files">文件管理</a>
+      <a href="#strm">STRM 生成</a>
       <a href="#playback">播放链路</a>
       <a href="#cinema">影院与 TMDB</a>
       <a href="#tasks">任务与日志</a>
@@ -41,9 +43,9 @@
 
     <div class="doc-content">
       <section class="doc-hero">
-        <p class="eyebrow">WIKI / PANMVP 0.2.0</p>
+        <p class="eyebrow">WIKI / PANMVP 0.2.1</p>
         <h1>PanMVP 使用说明书</h1>
-        <p>从首次运行到 115 账号、播放、影院刮削、任务和日志排障。适用于 Windows 本机运行，不依赖 Docker。</p>
+        <p>从首次运行到 115 账号、播放、影院刮削、任务和日志排障。以 Windows 本机运行为主，同时提供官方 Docker 镜像。</p>
       </section>
 
       <section class="doc-section" id="quickstart">
@@ -82,12 +84,50 @@ npm run dev</code></pre>
         <p>获取新版本后重新执行 <code>.\scripts\local.ps1 setup</code>，再启动服务。数据库和 <code>data/</code> 目录会保留；升级前建议备份 <code>data/panmvp.db</code>。</p>
       </section>
 
+      <section class="doc-section" id="docker">
+        <h2>Docker 镜像部署（可选）</h2>
+        <p>除本机运行外，PanMVP 提供官方镜像 <code>xxoo520zls/panmvp:0.2.1</code>（滚动标签 <code>xxoo520zls/panmvp:latest</code>）。镜像内置 Python 3.12、FFmpeg 与构建好的前端，宿主机无需安装 Python 和 Node。</p>
+        <h3>启动容器</h3>
+        <pre><code>docker run -d --name panmvp `
+  --restart unless-stopped `
+  -p 8787:8787 `
+  -v panmvp-data:/data `
+  -e PANMVP_SECRET_KEY="&lt;32 位以上随机字符串&gt;" `
+  -e PANMVP_PUBLIC_BASE_URL="http://localhost:8787" `
+  xxoo520zls/panmvp:0.2.1</code></pre>
+        <p>浏览器打开 <code>http://localhost:8787</code>，首次运行同样会引导创建管理员账号。</p>
+        <ul>
+          <li><code>/data</code> 是唯一必须持久化的目录，保存 <code>panmvp.db</code>、<code>local.secret</code> 和 <code>logs/</code>。</li>
+          <li>未设置 <code>PANMVP_SECRET_KEY</code> 时，容器首次启动会在 <code>/data/local.secret</code> 生成随机密钥并复用；设置后不要随意更换，否则旧密文无法解密。</li>
+          <li><code>PANMVP_PUBLIC_BASE_URL</code> 影响 STRM 播放地址和分享链接，局域网访问请改成 <code>http://内网 IP:8787</code>。</li>
+        </ul>
+        <h3>挂载 STRM 输出目录</h3>
+        <p>STRM 生成写入的是容器内的“本地输出目录”，需要把它映射到宿主机磁盘：</p>
+        <pre><code>docker run -d --name panmvp `
+  -p 8787:8787 `
+  -v panmvp-data:/data `
+  -v D:\Media\strm:/strm `
+  xxoo520zls/panmvp:0.2.1</code></pre>
+        <p>然后在“系统设置 → STRM 生成”里把本地输出目录填成容器内路径 <code>/strm</code>，不要填宿主机路径 <code>D:\Media\strm</code>。</p>
+        <h3>运维、升级与备份</h3>
+        <pre><code>docker logs -f panmvp     # 查看应用与容器日志
+docker restart panmvp     # 重启
+docker rm -f panmvp       # 删除容器，数据卷保留
+
+docker pull xxoo520zls/panmvp:0.2.1
+docker rm -f panmvp       # 再用相同参数重新创建容器
+
+docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
+  tar czf /backup/panmvp-data.tgz -C /data .</code></pre>
+        <div class="notice"><strong>注意：</strong>Docker 只是可选运行方式，PanMVP 不使用容器编排；数据库、凭据和日志始终保存在你的数据卷中，不会上传到第三方服务。</div>
+      </section>
+
       <section class="doc-section" id="115">
         <h2>115 网盘配置</h2>
         <ol>
           <li>进入“系统设置 → 115 网盘”。</li>
           <li>推荐选择扫码客户端，点击“获取二维码”，用 115 App 完成扫码确认。</li>
-          <li>登录成功后检查头像、用户名、账号 ID、VIP、到期时间和空间使用情况。</li>
+          <li>登录成功后检查个人资料卡：用户名、账号 ID、会员状态、到期时间，以及从 115 个人空间接口读取的总容量、已用和剩余空间。</li>
           <li>设置默认转存目录，点击“保存账号设置”。</li>
         </ol>
         <h3>Cookie 直填</h3>
@@ -109,10 +149,30 @@ npm run dev</code></pre>
             <tr><td>批量分享</td><td>调用 115 官方分享接口，可设置标题、提取码和有效期。</td></tr>
             <tr><td>删除</td><td>支持多选删除；根目录不会删除。</td></tr>
             <tr><td>播放</td><td>支持常见视频文件进入 PanMVP 播放器。</td></tr>
-            <tr><td>官方目录树</td><td>只对 115 Cloud 驱动开放，用于影院入库和批量扫描。</td></tr>
           </tbody>
         </table>
         <p>涉及写操作前会弹出确认，并记录按钮动作日志；API 请求和错误也会出现在运行日志页面。</p>
+      </section>
+
+      <section class="doc-section" id="strm">
+        <h2>目录树 STRM 生成</h2>
+        <p>进入“系统设置 → STRM 生成”，每个映射保存一条 115 来源目录到本地输出目录的关系。系统直接递归读取 115 目录，不再调用官方目录树导出接口。</p>
+        <h3>配置映射</h3>
+        <ol>
+          <li>点击“新建映射”，选择 115 网盘和默认生成方式。</li>
+          <li>点击“选择目录”打开 115 目录弹窗；可浏览、进入或新建 115 文件夹。</li>
+          <li>点击本地“选择目录”打开本机目录弹窗；可选择磁盘、浏览或新建输出文件夹。</li>
+          <li>保存映射。目录树清单写入本地输出目录的 <code>.panmvp/directory-tree.json</code>。</li>
+        </ol>
+        <h3>两种生成方式</h3>
+        <table>
+          <thead><tr><th>方式</th><th>行为</th></tr></thead>
+          <tbody>
+            <tr><td>目录树 + STRM 全量生成</td><td>重新扫描来源目录，重建全部 STRM，并更新本地目录树清单。</td></tr>
+            <tr><td>直接 STRM 增量生成</td><td>仅写入新增或发生变化的视频，跳过未变化项，并清理来源中已删除的旧 STRM。</td></tr>
+          </tbody>
+        </table>
+        <div class="notice"><strong>旧版清理：</strong>“清理旧官方目录树文件”只删除旧任务中名称包含“目录树”的 115 导出文件，并清理本机旧缓存，不会删除媒体文件。</div>
       </section>
 
       <section class="doc-section" id="playback">
@@ -135,12 +195,12 @@ npm run dev</code></pre>
 
       <section class="doc-section" id="cinema">
         <h2>影院与 TMDB 刮削</h2>
-        <p>v0.2.0 的影院刮削固定使用 TMDB，不再回退其他元数据源。首次使用前请在“系统设置 → 高级设置”配置全局 TMDB API Key，或在个人偏好中配置个人 Key。</p>
+        <p>v0.2.1 的影院刮削固定使用 TMDB，不再回退其他元数据源。首次使用前请在“系统设置 → 高级设置”配置全局 TMDB API Key，或在个人偏好中配置个人 Key。</p>
         <h3>入库流程</h3>
         <ol>
           <li>点击“影院 → 入库 115 目录”。</li>
           <li>选择一个或多个来源目录，确认是否删除所选来源的旧本地 STRM。</li>
-          <li>系统依次创建目录树、STRM 生成和刮削任务。</li>
+          <li>系统直接扫描 115 目录，并依次创建目录树、STRM 生成和刮削任务。</li>
           <li>任务中心显示每阶段进度；完成后影院卡片实时出现。</li>
         </ol>
         <h3>独立 TMDB 刮削器</h3>
@@ -230,7 +290,9 @@ npm run dev</code></pre>
       <section class="doc-section" id="faq">
         <h2>常见问题</h2>
         <h3>可以部署到公网服务器吗？</h3>
-        <p>PanMVP 当前只支持本机运行。若通过反向代理暴露，请自行启用 HTTPS、访问控制和备份策略。</p>
+        <p>PanMVP 以本机（含本机 Docker）运行为主，不提供集群编排。若通过反向代理暴露，请自行启用 HTTPS、访问控制和备份策略，并把 <code>PANMVP_PUBLIC_BASE_URL</code> 指向真实访问地址。</p>
+        <h3>Docker 运行和本机运行有什么区别？</h3>
+        <p>功能完全一致：Docker 镜像内置 Python、FFmpeg 和已构建前端，省去本机环境安装；本机运行便于直接改代码和调试。两者共用同一套 SQLite 结构，数据分别保存在本地 <code>data/</code> 目录或 Docker 数据卷中。</p>
         <h3>官网会公开源码吗？</h3>
         <p>不会。GitHub Pages 工作流只上传 <code>docs/</code> 目录中的静态网站文件。后端、数据库、日志和凭据不会进入 Pages artifact。</p>
         <h3>为什么影院刮削必须是 TMDB？</h3>
@@ -243,7 +305,7 @@ npm run dev</code></pre>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP Wiki · v0.2.0</div>
+      <div>© <span data-year></span> PanMVP Wiki · v0.2.1</div>
       <div class="footer-links"><a href="./index.html">官网首页</a><a href="./changelog.html">更新日志</a><a href="#quickstart">快速开始</a></div>
     </div>
   </footer>

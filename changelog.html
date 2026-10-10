@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#04070d" />
-  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.0，包含 TMDB 独立刮削、任务一键删除、115 用户资料卡和 GitHub Pages 官网。" />
+  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.1，包含本地目录树、全量/增量 STRM、115 个人资料与空间展示。" />
   <title>版本更新 · PanMVP</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2218%22 fill=%22%2307101c%22/><path d=%22M16 42V22h7l9 12 9-12h7v20h-7V32l-9 12-9-12v10z%22 fill=%22%2348e4ff%22/></svg>" />
   <link rel="stylesheet" href="./assets/styles.css" />
@@ -26,7 +26,9 @@
   <main class="container doc-layout">
     <aside class="doc-sidebar">
       <strong>版本目录</strong>
-      <a href="#v020">v0.2.0 · 当前版本</a>
+      <a href="#v021">v0.2.1 · 当前版本</a>
+      <a href="#v021-docker">v0.2.1 · Docker 镜像</a>
+      <a href="#v020">v0.2.0</a>
       <a href="#v012">v0.1.2</a>
       <a href="#v010">v0.1.0</a>
       <a href="#release-policy">发布规范</a>
@@ -36,11 +38,78 @@
       <section class="doc-hero">
         <p class="eyebrow">RELEASE NOTES</p>
         <h1>PanMVP 更新记录</h1>
-        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.0</code>。</p>
+        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.1</code>。</p>
+      </section>
+
+      <section class="release" id="v021">
+        <h2>v0.2.1 <span class="tag-new">LATEST</span></h2>
+        <time datetime="2026-10-10">2026-10-10</time>
+        <p>本版本重构目录树与 STRM 生成方式，移除文件管理中的 115 官方目录树入口，并完善本地目录选择和 115 个人资料展示。</p>
+        <div class="release-grid">
+          <div>
+            <strong>新增功能</strong>
+            <ul>
+              <li>系统设置新增“STRM 生成”，支持一条或多条 115 目录到本地目录的映射。</li>
+              <li>新增“目录树 + STRM 全量生成”，重新扫描并重建全部 STRM。</li>
+              <li>新增“直接 STRM 增量生成”，跳过未变化文件并清理来源中已删除的旧 STRM。</li>
+              <li>本地输出目录保存 <code>.panmvp/directory-tree.json</code> 目录树清单。</li>
+              <li>115 和本地目录选择器都支持弹窗浏览与新建文件夹。</li>
+              <li>新增旧官方目录树文件与本地缓存清理操作。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>体验改进</strong>
+            <ul>
+              <li>文件管理移除“115 官方目录树”按钮，职责集中到系统设置。</li>
+              <li>影院和 STRM 流程直接递归读取 115 目录，不再等待官方导出任务。</li>
+              <li>115 资料卡显示用户名、账号 ID、会员、到期、总容量、已用和剩余空间。</li>
+              <li>115 空间数据改为读取个人资料与空间接口，刷新后立即更新。</li>
+              <li>旧官方目录树缓存不再参与后续生成，避免混用。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>安全与清理</strong>
+            <ul>
+              <li>旧官方目录树清理只处理名称包含“目录树”的导出文件，不删除媒体。</li>
+              <li>删除 STRM 映射默认保留已生成的本地 STRM 和目录树文件。</li>
+              <li>版本号同步更新为 <code>0.2.1</code>。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="release" id="v021-docker">
+        <h2>v0.2.1 · Docker 镜像 <span class="tag-new">NEW</span></h2>
+        <time datetime="2026-10-11">2026-10-11</time>
+        <p>应用代码仍为 0.2.1，本次补充官方镜像分发与 Docker 部署文档，程序功能、接口和数据库结构均未改动。</p>
+        <div class="release-grid">
+          <div>
+            <strong>镜像分发</strong>
+            <ul>
+              <li>Docker Hub 发布官方镜像 <code>xxoo520zls/panmvp:0.2.1</code> 与滚动标签 <code>latest</code>。</li>
+              <li>镜像内置 Python 3.12、FFmpeg 和已构建前端，宿主机无需安装 Python、Node 或 FFmpeg。</li>
+              <li>默认数据目录为容器内 <code>/data</code>，挂载数据卷即可持久化数据库、密钥和日志。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>文档</strong>
+            <ul>
+              <li>Wiki 新增“Docker 镜像部署”章节：端口、数据卷、环境变量、STRM 目录挂载、运维、升级与备份。</li>
+              <li>官网首页快速开始与安装入口补充 Docker 方式，并说明容器内路径与宿主机挂载路径的区别。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>兼容性</strong>
+            <ul>
+              <li>Windows 本机运行方式保持不变，两种方式的 SQLite 数据结构一致。</li>
+              <li>版本号仍为 <code>0.2.1</code>，未发布新的应用版本。</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section class="release" id="v020">
-        <h2>v0.2.0 <span class="tag-new">LATEST</span></h2>
+        <h2>v0.2.0</h2>
         <time datetime="2026-10-10">2026-10-10</time>
         <p>本次版本重点是重新定义影院刮削体验，同时补齐任务清理、115 账号资料展示和项目官网。</p>
         <div class="release-grid">
@@ -117,8 +186,8 @@ docs/assets/</code></pre>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP · v0.2.0</div>
-      <div class="footer-links"><a href="./index.html">官网首页</a><a href="./guide.html">Wiki 说明书</a><a href="#v020">最新版本</a></div>
+      <div>© <span data-year></span> PanMVP · v0.2.1</div>
+      <div class="footer-links"><a href="./index.html">官网首页</a><a href="./guide.html">Wiki 说明书</a><a href="#v021">最新版本</a></div>
     </div>
   </footer>
   <script src="./assets/site.js" defer></script>
