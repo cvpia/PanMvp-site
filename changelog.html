@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#04070d" />
+  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.0，包含 TMDB 独立刮削、任务一键删除、115 用户资料卡和 GitHub Pages 官网。" />
+  <title>版本更新 · PanMVP</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2218%22 fill=%22%2307101c%22/><path d=%22M16 42V22h7l9 12 9-12h7v20h-7V32l-9 12-9-12v10z%22 fill=%22%2348e4ff%22/></svg>" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body data-page="changelog">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html"><span class="brand-mark">PM</span><span>PanMVP<small>LOCAL MEDIA NEXUS</small></span></a>
+      <button class="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">☰</button>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="./index.html#features">功能</a>
+        <a href="./guide.html">Wiki 说明书</a>
+        <a class="active" href="./changelog.html">更新日志</a>
+        <a class="nav-cta" href="./guide.html#quickstart">快速开始</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container doc-layout">
+    <aside class="doc-sidebar">
+      <strong>版本目录</strong>
+      <a href="#v020">v0.2.0 · 当前版本</a>
+      <a href="#v012">v0.1.2</a>
+      <a href="#v010">v0.1.0</a>
+      <a href="#release-policy">发布规范</a>
+    </aside>
+
+    <div class="doc-content">
+      <section class="doc-hero">
+        <p class="eyebrow">RELEASE NOTES</p>
+        <h1>PanMVP 更新记录</h1>
+        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.0</code>。</p>
+      </section>
+
+      <section class="release" id="v020">
+        <h2>v0.2.0 <span class="tag-new">LATEST</span></h2>
+        <time datetime="2026-10-10">2026-10-10</time>
+        <p>本次版本重点是重新定义影院刮削体验，同时补齐任务清理、115 账号资料展示和项目官网。</p>
+        <div class="release-grid">
+          <div>
+            <strong>新增功能</strong>
+            <ul>
+              <li>独立 TMDB 刮削器，支持文件名清洗、外部 ID 识别和候选评分。</li>
+              <li>影院详情新增 TMDB 候选搜索与手动绑定。</li>
+              <li>任务中心新增“一键删除”，可清理全部任务记录。</li>
+              <li>115 设置升级为资料卡，显示头像、用户名、VIP、到期和空间。</li>
+              <li>文件管理网盘标签改为“115 网盘 + 用户名 + 账号 ID”。</li>
+              <li>新增 GitHub Pages 官网、Wiki 说明书和版本更新页。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>体验改进</strong>
+            <ul>
+              <li>刮削改为按标题、年份、类型、热度和票数综合选择，不再直接使用第一条结果。</li>
+              <li>NFO 扩展演员、导演、编剧、类型、票数、唯一 ID、首播日期等字段。</li>
+              <li>影院刮削同时缓存海报和背景图。</li>
+              <li>未匹配条目会明确统计和提示，可进入手动校准。</li>
+              <li>按钮动作、API 请求和任务日志保持可查询。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>安全与边界</strong>
+            <ul>
+              <li>GitHub Pages 只上传 <code>docs/</code> 静态站点。</li>
+              <li>不发布后端源码、数据库、Cookie、API Key、日志或运行数据。</li>
+              <li>影院刮削链路统一使用 TMDB，不再回退其他元数据源。</li>
+              <li>版本号同步更新为 <code>0.2.0</code>。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="release" id="v012">
+        <h2>v0.1.2</h2>
+        <time datetime="2026-10-10">2026-10-10</time>
+        <p>本机运行与日志能力完善版本。</p>
+        <ul>
+          <li>加入按日运行日志，记录按钮动作、API 请求、状态码、耗时和用户。</li>
+          <li>日志支持保留天数与每日清理时间。</li>
+          <li>完善 Windows 本机启动、测试和停止脚本。</li>
+          <li>完善 115 Cookie、扫码登录、用户信息和空间展示。</li>
+          <li>改善影院 STRM、字幕、弹幕和播放链路。</li>
+        </ul>
+      </section>
+
+      <section class="release" id="v010">
+        <h2>v0.1.0</h2>
+        <time datetime="2026-10-02">2026-10-02</time>
+        <p>PanMVP 初始版本，建立本地优先的 115 网盘媒体控制中枢。</p>
+        <ul>
+          <li>FastAPI + Vue 3 + SQLite 基础架构。</li>
+          <li>115 文件管理、资源搜索、订阅和通知。</li>
+          <li>302/代理播放、HLS 回退和播放进度。</li>
+          <li>基础影院 STRM、NFO 与 Emby 工作流。</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" id="release-policy">
+        <h2>发布规范</h2>
+        <p>项目约束要求所有面向用户的功能变更同步更新官网、版本页和 Wiki。发布前必须使用本机浏览器验证桌面端和移动端导航、按钮、复制命令和页面链接。</p>
+        <div class="notice safe"><strong>GitHub Pages 边界：</strong>Pages workflow 只部署 <code>docs/</code> 目录，不会上传后端源码、<code>.env</code>、数据库、日志或用户凭据。</div>
+        <pre><code>.github/workflows/pages.yml
+docs/index.html
+docs/guide.html
+docs/changelog.html
+docs/assets/</code></pre>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© <span data-year></span> PanMVP · v0.2.0</div>
+      <div class="footer-links"><a href="./index.html">官网首页</a><a href="./guide.html">Wiki 说明书</a><a href="#v020">最新版本</a></div>
+    </div>
+  </footer>
+  <script src="./assets/site.js" defer></script>
+</body>
+</html>

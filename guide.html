@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#04070d" />
+  <meta name="description" content="PanMVP Wiki 使用说明书：安装、115 网盘、播放、TMDB 影院刮削、任务中心、运行日志和故障排查。" />
+  <title>Wiki 说明书 · PanMVP</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2218%22 fill=%22%2307101c%22/><path d=%22M16 42V22h7l9 12 9-12h7v20h-7V32l-9 12-9-12v10z%22 fill=%22%2348e4ff%22/></svg>" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body data-page="guide">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html"><span class="brand-mark">PM</span><span>PanMVP<small>LOCAL MEDIA NEXUS</small></span></a>
+      <button class="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">☰</button>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="./index.html#features">功能</a>
+        <a class="active" href="./guide.html">Wiki 说明书</a>
+        <a href="./changelog.html">更新日志</a>
+        <a class="nav-cta" href="#quickstart">快速开始</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container doc-layout">
+    <aside class="doc-sidebar">
+      <strong>PanMVP Wiki</strong>
+      <a href="#quickstart">快速开始</a>
+      <a href="#installation">安装与升级</a>
+      <a href="#115">115 网盘</a>
+      <a href="#files">文件管理</a>
+      <a href="#playback">播放链路</a>
+      <a href="#cinema">影院与 TMDB</a>
+      <a href="#tasks">任务与日志</a>
+      <a href="#notifications">通知渠道</a>
+      <a href="#security">安全与隐私</a>
+      <a href="#troubleshooting">故障排查</a>
+      <a href="#faq">常见问题</a>
+    </aside>
+
+    <div class="doc-content">
+      <section class="doc-hero">
+        <p class="eyebrow">WIKI / PANMVP 0.2.0</p>
+        <h1>PanMVP 使用说明书</h1>
+        <p>从首次运行到 115 账号、播放、影院刮削、任务和日志排障。适用于 Windows 本机运行，不依赖 Docker。</p>
+      </section>
+
+      <section class="doc-section" id="quickstart">
+        <h2>快速开始</h2>
+        <p>推荐使用项目自带的 PowerShell 脚本：它会创建 <code>backend/.venv</code>、安装依赖、构建 Vite 前端并启动 FastAPI。</p>
+        <pre><code>Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\local.ps1 setup
+.\scripts\local.ps1 start</code></pre>
+        <p>浏览器打开 <code>http://localhost:8787</code>，首次运行会引导创建管理员账号。常用命令：</p>
+        <pre><code>.\scripts\local.ps1 status
+.\scripts\local.ps1 start -Reload
+.\scripts\local.ps1 test
+.\scripts\local.ps1 stop</code></pre>
+        <div class="notice safe"><strong>发布提示：</strong>PanMVP 官网与 Wiki 是纯静态站点。访问官网不会连接你的本机数据库，也不会下载或公开源码。</div>
+      </section>
+
+      <section class="doc-section" id="installation">
+        <h2>安装与升级</h2>
+        <h3>环境要求</h3>
+        <ul>
+          <li>Windows 10 / 11 或可运行 Python、Node 的 Windows 环境。</li>
+          <li>Python 3.12+；项目默认使用 <code>backend/.venv</code>。</li>
+          <li>Node.js 20+；项目可使用仓库内 <code>.tools/npm</code>。</li>
+          <li>可选：FFmpeg / FFprobe，用于 HLS、字幕和媒体探测。</li>
+        </ul>
+        <h3>手动开发运行</h3>
+        <pre><code>cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -e ".[test]"
+uvicorn app.main:app --reload --port 8787</code></pre>
+        <pre><code>cd frontend
+npm install
+npm run dev</code></pre>
+        <h3>升级</h3>
+        <p>获取新版本后重新执行 <code>.\scripts\local.ps1 setup</code>，再启动服务。数据库和 <code>data/</code> 目录会保留；升级前建议备份 <code>data/panmvp.db</code>。</p>
+      </section>
+
+      <section class="doc-section" id="115">
+        <h2>115 网盘配置</h2>
+        <ol>
+          <li>进入“系统设置 → 115 网盘”。</li>
+          <li>推荐选择扫码客户端，点击“获取二维码”，用 115 App 完成扫码确认。</li>
+          <li>登录成功后检查头像、用户名、账号 ID、VIP、到期时间和空间使用情况。</li>
+          <li>设置默认转存目录，点击“保存账号设置”。</li>
+        </ol>
+        <h3>Cookie 直填</h3>
+        <p>也可以填写类似下面的 Cookie。Cookie 只会加密写入本机 SQLite，前端不会回显原文。</p>
+        <pre><code>UID=...; CID=...; SEID=...; KID=...</code></pre>
+        <div class="notice"><strong>安全：</strong>不要把 Cookie 发到公开聊天、截图、Issue 或 GitHub Pages。该信息等同于账号会话凭据。</div>
+        <h3>文件管理页面的网盘标签</h3>
+        <p>标签会显示“115 网盘 + 网盘用户名 + 账号 ID”，便于区分多个账号和排查连接状态。</p>
+      </section>
+
+      <section class="doc-section" id="files">
+        <h2>文件管理</h2>
+        <table>
+          <thead><tr><th>操作</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>浏览 / 打开</td><td>进入 115 文件夹，根目录开始按真实目录浏览。</td></tr>
+            <tr><td>下载</td><td>单选文件，通过签名票据下载，支持 115 直链解析。</td></tr>
+            <tr><td>批量重命名</td><td>先预览新旧名称，再确认执行；不会绕过 115 官方接口。</td></tr>
+            <tr><td>批量分享</td><td>调用 115 官方分享接口，可设置标题、提取码和有效期。</td></tr>
+            <tr><td>删除</td><td>支持多选删除；根目录不会删除。</td></tr>
+            <tr><td>播放</td><td>支持常见视频文件进入 PanMVP 播放器。</td></tr>
+            <tr><td>官方目录树</td><td>只对 115 Cloud 驱动开放，用于影院入库和批量扫描。</td></tr>
+          </tbody>
+        </table>
+        <p>涉及写操作前会弹出确认，并记录按钮动作日志；API 请求和错误也会出现在运行日志页面。</p>
+      </section>
+
+      <section class="doc-section" id="playback">
+        <h2>播放链路</h2>
+        <h3>302 直链</h3>
+        <p>服务端解析 115 播放地址并返回 HTTP 302。浏览器直接从网盘读取媒体流，服务器压力较小，适合大多数家庭网络。</p>
+        <h3>代理播放</h3>
+        <p>兼容防盗链或局域网问题，服务端完整转发 <code>Range</code>、<code>Content-Range</code>、<code>Accept-Ranges</code> 和 <code>206</code> 响应，支持拖动。</p>
+        <h3>HLS 回退</h3>
+        <p>302 失效时，可使用本机 FFmpeg 生成 HLS。多音轨会被映射为可切换轨道，缓存会在播放结束后清理。</p>
+        <table>
+          <thead><tr><th>场景</th><th>建议</th></tr></thead>
+          <tbody>
+            <tr><td>家庭内网、直链可用</td><td>使用 302，速度最快。</td></tr>
+            <tr><td>播放器提示 403 / 源站防盗链</td><td>切换代理播放或检查网络代理。</td></tr>
+            <tr><td>需要多音轨 / 字幕转码</td><td>配置 FFmpeg / FFprobe 并使用 HLS。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="doc-section" id="cinema">
+        <h2>影院与 TMDB 刮削</h2>
+        <p>v0.2.0 的影院刮削固定使用 TMDB，不再回退其他元数据源。首次使用前请在“系统设置 → 高级设置”配置全局 TMDB API Key，或在个人偏好中配置个人 Key。</p>
+        <h3>入库流程</h3>
+        <ol>
+          <li>点击“影院 → 入库 115 目录”。</li>
+          <li>选择一个或多个来源目录，确认是否删除所选来源的旧本地 STRM。</li>
+          <li>系统依次创建目录树、STRM 生成和刮削任务。</li>
+          <li>任务中心显示每阶段进度；完成后影院卡片实时出现。</li>
+        </ol>
+        <h3>独立 TMDB 刮削器</h3>
+        <ul>
+          <li>清洗分辨率、编码、发布组、语言等发布文件名信息。</li>
+          <li>识别 TMDB ID、IMDb ID、年份和剧集季集号。</li>
+          <li>按标题、年份、类型、热度、票数和海报信息评分候选。</li>
+          <li>补全详情、演员、导演、类型、片长、评分、海报和背景图。</li>
+          <li>生成 Emby / Kodi 兼容 NFO。</li>
+        </ul>
+        <h3>手动校准</h3>
+        <p>在影院详情页点击“手动校准刮削”，输入标题、年份和类型，搜索 TMDB 候选。点击候选卡片后，系统会绑定 TMDB ID，保存时同步更新数据库、NFO、海报和背景图。</p>
+        <div class="notice"><strong>没有 TMDB Key：</strong>影院条目仍可显示原始解析结果，但无法自动补全元数据和海报；搜索候选会提示“请先配置 TMDB API Key”。</div>
+      </section>
+
+      <section class="doc-section" id="tasks">
+        <h2>任务中心与运行日志</h2>
+        <h3>任务中心</h3>
+        <p>显示执行中、已完成、失败和暂停状态。影院任务支持断点继续；订阅任务支持重试。新版本提供“一键删除”，确认后会停止运行中任务并删除当前账号任务记录。</p>
+        <div class="notice"><strong>一键删除不可恢复：</strong>删除的是任务记录；已经生成的本地 STRM、NFO、海报等文件需要到影院来源管理中处理。</div>
+        <h3>运行日志</h3>
+        <p>日志包含按钮动作、API 请求、任务执行、状态码、耗时、用户和错误。日志按日保存，可在页面设置保留天数和每日清理时间。</p>
+        <table>
+          <thead><tr><th>日志类型</th><th>用途</th></tr></thead>
+          <tbody>
+            <tr><td>button_action</td><td>记录页面按钮点击及上下文。</td></tr>
+            <tr><td>http_request</td><td>记录 API 路径、方法、状态码、耗时和请求 ID。</td></tr>
+            <tr><td>task / cinema / playback</td><td>记录任务执行、影院刮削和播放相关事件。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="doc-section" id="notifications">
+        <h2>通知渠道</h2>
+        <p>支持 Telegram、企业微信、钉钉、邮件和通用 Webhook。配置后，任务完成或失败可发送通知；通知凭据加密保存。</p>
+        <ul>
+          <li>Telegram：填写 Bot Token 和 Chat ID。</li>
+          <li>企业微信 / 钉钉：填写机器人 Webhook。</li>
+          <li>邮件：填写 SMTP 地址、账号、密码和收件人。</li>
+          <li>通用 Webhook：适合接入自建服务或自动化平台。</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" id="security">
+        <h2>安全与隐私</h2>
+        <ul>
+          <li>为生产环境设置稳定的 <code>PANMVP_SECRET_KEY</code>，用于加密 115 Cookie、通知凭据和 TMDB Key。</li>
+          <li>不要把 <code>.env</code>、<code>data/panmvp.db</code>、Cookie、日志或截图提交到公开仓库。</li>
+          <li>GitHub Pages 只部署 <code>docs/</code> 静态站点，不包含后端源码或运行数据。</li>
+          <li>公网访问时应在反向代理层启用 HTTPS，并限制管理接口来源。</li>
+          <li>资源搜索依赖用户自行配置的账号；PanMVP 不内置或分发盗版资源。</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" id="troubleshooting">
+        <h2>故障排查</h2>
+        <h3>115 显示连接异常</h3>
+        <ol>
+          <li>检查是否已扫码或填写 Cookie。</li>
+          <li>在 115 网盘设置中点击“刷新信息”和“检测连接”。</li>
+          <li>若 Cookie 过期，重新扫码登录。</li>
+          <li>检查系统代理是否能访问 <code>115.com</code> 和 <code>webapi.115.com</code>。</li>
+        </ol>
+        <h3>影院刮削没有海报或信息</h3>
+        <ol>
+          <li>确认已配置 TMDB API Key，并在设置中测试网络。</li>
+          <li>检查文件名是否包含可识别片名、年份或 TMDB/IMDb ID。</li>
+          <li>在影院详情中使用“手动校准刮削”选择正确候选。</li>
+          <li>查看运行日志中 <code>cinema_poster</code>、<code>cinema_scrape</code> 的错误信息。</li>
+        </ol>
+        <h3>播放卡顿 / 无法拖动</h3>
+        <ol>
+          <li>切换 302 / 代理播放模式。</li>
+          <li>检查网络带宽和代理稳定性。</li>
+          <li>拖动失败时确认服务端代理是否透传 Range。</li>
+          <li>HLS 场景检查 FFmpeg 路径是否可执行。</li>
+        </ol>
+        <h3>任务一直排队或失败</h3>
+        <ol>
+          <li>查看任务卡片的错误和运行日志。</li>
+          <li>确认数据库目录可写、磁盘空间充足。</li>
+          <li>影院任务失败后可使用“继续”从断点恢复。</li>
+          <li>必要时删除任务后重新创建任务链。</li>
+        </ol>
+      </section>
+
+      <section class="doc-section" id="faq">
+        <h2>常见问题</h2>
+        <h3>可以部署到公网服务器吗？</h3>
+        <p>PanMVP 当前只支持本机运行。若通过反向代理暴露，请自行启用 HTTPS、访问控制和备份策略。</p>
+        <h3>官网会公开源码吗？</h3>
+        <p>不会。GitHub Pages 工作流只上传 <code>docs/</code> 目录中的静态网站文件。后端、数据库、日志和凭据不会进入 Pages artifact。</p>
+        <h3>为什么影院刮削必须是 TMDB？</h3>
+        <p>为了统一元数据结构、减少错误匹配并稳定生成 Emby/Kodi 兼容 NFO，影院链路只使用 TMDB。发现和订阅模块仍可保留其他来源。</p>
+        <h3>如何反馈问题？</h3>
+        <p>提交问题时请附版本号、操作步骤和脱敏后的运行日志。不要上传 Cookie、API Key、数据库或包含隐私的截图。</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© <span data-year></span> PanMVP Wiki · v0.2.0</div>
+      <div class="footer-links"><a href="./index.html">官网首页</a><a href="./changelog.html">更新日志</a><a href="#quickstart">快速开始</a></div>
+    </div>
+  </footer>
+  <script src="./assets/site.js" defer></script>
+</body>
+</html>

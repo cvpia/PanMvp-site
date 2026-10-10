@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#04070d" />
+  <meta name="description" content="PanMVP 是本地优先的 115 网盘媒体网关，整合文件管理、TMDB 影院刮削、302/HLS 播放、订阅、Emby 与全链路运行日志。" />
+  <title>PanMVP · 本地优先的 115 网盘私人影院</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2218%22 fill=%22%2307101c%22/><path d=%22M16 42V22h7l9 12 9-12h7v20h-7V32l-9 12-9-12v10z%22 fill=%22%2348e4ff%22/></svg>" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body data-page="home">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html" aria-label="PanMVP 首页">
+        <span class="brand-mark">PM</span>
+        <span>PanMVP<small>LOCAL MEDIA NEXUS</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">☰</button>
+      <nav class="site-nav" aria-label="主导航">
+        <a class="active" href="#features">功能</a>
+        <a href="#scraping">TMDB 刮削</a>
+        <a href="./guide.html">Wiki 说明书</a>
+        <a href="./changelog.html">更新日志</a>
+        <a class="nav-cta" href="#quickstart">快速开始</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">115 CLOUD · LOCAL FIRST · MEDIA NEXUS</p>
+          <h1>把 115 网盘，变成真正好用的 <span>私人影院</span></h1>
+          <p class="hero-copy">PanMVP 把网盘文件、资源搜索、302/HLS 播放、TMDB 刮削、订阅任务、Emby 与运行日志收进一个本地控制中枢。数据留在你的电脑，体验接近成熟的媒体服务器。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="./guide.html#quickstart">查看安装说明 →</a>
+            <a class="button" href="./changelog.html">v0.2.0 更新内容</a>
+          </div>
+          <div class="hero-badges">
+            <span class="pill">本机 FastAPI</span>
+            <span class="pill">Vue 3 / Vite</span>
+            <span class="pill">SQLite 加密凭据</span>
+            <span class="pill">TMDB 元数据</span>
+            <span class="pill">全链路日志</span>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="PanMVP 界面预览">
+          <div class="app-window">
+            <div class="window-bar">
+              <i class="window-dot"></i><i class="window-dot"></i><i class="window-dot"></i>
+              <span class="window-title">PANMVP / CINEMA MATRIX</span>
+            </div>
+            <div class="app-layout">
+              <aside class="mock-nav">
+                <div class="mock-logo">PM</div>
+                <div class="mock-link active">⌂ 总览</div>
+                <div class="mock-link">▤ 文件管理</div>
+                <div class="mock-link">▶ 影院</div>
+                <div class="mock-link">⌕ 资源搜索</div>
+                <div class="mock-link">≋ 任务中心</div>
+                <div class="mock-link">▤ 运行日志</div>
+              </aside>
+              <div class="mock-main">
+                <div class="mock-head">
+                  <div><h3>影院媒体库</h3><p>TMDB 刮削 · 实时同步 · 本地 STRM</p></div>
+                  <span class="mock-button">入库目录</span>
+                </div>
+                <div class="mock-metrics">
+                  <div class="mock-metric"><small>电影</small><strong>128</strong></div>
+                  <div class="mock-metric"><small>电视剧</small><strong>42</strong></div>
+                  <div class="mock-metric"><small>任务</small><strong>99+</strong></div>
+                </div>
+                <div class="mock-cards">
+                  <article class="mock-card"><div class="mock-poster"></div><div><strong>沙丘 2</strong><span>2024 · 8.2 分</span></div></article>
+                  <article class="mock-card"><div class="mock-poster"></div><div><strong>三体</strong><span>剧集 · TMDB</span></div></article>
+                  <article class="mock-card"><div class="mock-poster"></div><div><strong>奥本海默</strong><span>2023 · 8.1 分</span></div></article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">FEATURE MATRIX</p>
+          <h2>一个入口，覆盖网盘媒体的全生命周期</h2>
+          <p>从 115 登录、浏览和转存，到播放、刮削、订阅和 Emby 媒体库整理；每个关键动作都留下可查询日志。</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card"><div class="feature-icon">◫</div><h3>115 原生文件管理</h3><p>浏览、下载、重命名、复制、移动、删除、官方分享、目录树导出和云下载，不修改网盘源文件结构。</p><span class="tag">115 WEBAPI</span></article>
+          <article class="feature-card"><div class="feature-icon">▶</div><h3>302 + HLS 双播放链路</h3><p>优先 302 直链，兼容失败时自动回退本机 FFmpeg HLS；代理播放完整支持 Range 和拖动进度。</p><span class="tag">RANGE READY</span></article>
+          <article class="feature-card"><div class="feature-icon">✦</div><h3>独立 TMDB 刮削器</h3><p>文件名清洗、TMDB/IMDb ID 识别、候选评分、演员与剧照补全、Emby/Kodi 兼容 NFO，一次入库。</p><span class="tag">V0.2.0 重点</span></article>
+          <article class="feature-card"><div class="feature-icon">≋</div><h3>任务控制中心</h3><p>串行任务、断点继续、状态进度、失败重试和新增的一键删除；所有任务都有可追踪结果。</p><span class="tag">ONE-CLICK CLEAN</span></article>
+          <article class="feature-card"><div class="feature-icon">◎</div><h3>115 账号资料卡</h3><p>清晰展示头像、用户名、账号 ID、VIP 状态、到期时间和空间使用情况，账号状态一眼可见。</p><span class="tag">PROFILE CARD</span></article>
+          <article class="feature-card"><div class="feature-icon">⌕</div><h3>资源发现与订阅</h3><p>聚影资源搜索、115 分享转存、磁力/电驴云下载，以及 TMDB、豆瓣、Bangumi、AniList 订阅来源。</p><span class="tag">DISCOVERY</span></article>
+          <article class="feature-card"><div class="feature-icon">▤</div><h3>运行日志与审计</h3><p>按钮点击、API 请求、状态码、耗时、用户和错误按日保存，并支持保留天数和每日清理时间。</p><span class="tag">QUERYABLE</span></article>
+          <article class="feature-card"><div class="feature-icon">⌂</div><h3>本机优先与隐私</h3><p>FastAPI + SQLite + Vue，本地运行；Cookie、API Key 和通知凭据加密保存，不依赖第三方控制面。</p><span class="tag">LOCAL FIRST</span></article>
+          <article class="feature-card"><div class="feature-icon">↗</div><h3>Emby / STRM 工作流</h3><p>生成本地 STRM 与元数据目录，Emby 播放时动态解析 115 直链，网盘媒体库保持整洁。</p><span class="tag">EMBY READY</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="scraping">
+      <div class="container split">
+        <div class="spotlight">
+          <p class="eyebrow">TMDB ONLY SCRAPER</p>
+          <h3>不是“搜到第一条就入库”，而是真正按候选评分刮削</h3>
+          <p>v0.2.0 将影院刮削重构为独立服务：先解析发布文件名和外部 ID，再综合标题、年份、媒体类型、热度和票数选择最佳结果。命中不稳定时，可以在影院详情中查看 TMDB 候选并手动绑定。</p>
+          <ul class="check-list">
+            <li>支持 <code>tmdb-693134</code>、<code>tt...</code> 等外部标识</li>
+            <li>自动清洗 2160p、WEB-DL、HEVC、国语中字等发布信息</li>
+            <li>补全演员、导演、类型、片长、评分、海报与背景图</li>
+            <li>生成 Emby/Kodi 兼容 NFO，不再回退到其他元数据源</li>
+            <li>未匹配条目会明确标记，方便手动校准</li>
+          </ul>
+        </div>
+        <div class="spotlight">
+          <p class="eyebrow">MATCHING MODEL</p>
+          <h3>候选评分如何工作</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>维度</th><th>策略</th></tr></thead>
+              <tbody>
+                <tr><td>标题</td><td>归一化后完全匹配、包含关系与相似度评分</td></tr>
+                <tr><td>年份</td><td>完全一致加分；相差 1 年轻微加分；偏差过大扣分</td></tr>
+                <tr><td>类型</td><td>电影 / 剧集不一致时直接重罚</td></tr>
+                <tr><td>质量</td><td>热度、票数和海报可用性作为辅助信号</td></tr>
+                <tr><td>兜底</td><td>低于自动匹配阈值时保持条目可管理，并进入手动校准</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="notice safe"><strong>隐私边界：</strong>GitHub Pages 只发布本页和说明书等静态文件，不包含后端源码、数据库、Cookie、API Key、日志或本机运行数据。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">MEDIA PIPELINE</p>
+          <h2>从网盘目录到可播放媒体库</h2>
+          <p>四步完成影院入库，任务中心实时呈现进度；失败条目保留上下文，便于继续和校准。</p>
+        </div>
+        <div class="flow">
+          <article class="flow-step"><b>01 / INDEX</b><h3>选择 115 目录</h3><p>跨目录选择入库来源，生成官方目录树清单并缓存，减少重复扫描。</p></article>
+          <article class="flow-step"><b>02 / STRM</b><h3>生成媒体结构</h3><p>在本地生成电影、剧集、季和集目录，以及可长期播放的 STRM 文件。</p></article>
+          <article class="flow-step"><b>03 / SCRAPE</b><h3>TMDB 匹配</h3><p>独立刮削器识别片名和 ID，拉取完整详情、海报、背景图与 NFO。</p></article>
+          <article class="flow-step"><b>04 / PLAY</b><h3>播放与整理</h3><p>在 PanMVP 或 Emby 中播放，字幕、弹幕、进度和剧集切换保持可用。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quickstart">
+      <div class="container split">
+        <div class="spotlight">
+          <p class="eyebrow">QUICK START</p>
+          <h3>Windows 本机，两条命令启动</h3>
+          <p>项目只使用本机 Python、Node 和 SQLite，不依赖 Docker。首次启动后在网页中创建管理员账号。</p>
+          <pre><code>Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\local.ps1 setup
+.\scripts\local.ps1 start</code></pre>
+          <p>默认访问地址：<code>http://localhost:8787</code></p>
+          <div class="hero-actions"><a class="button primary" href="./guide.html#installation">完整安装教程</a><a class="button" href="./guide.html#troubleshooting">故障排查</a></div>
+        </div>
+        <div class="spotlight">
+          <p class="eyebrow">FIRST CONFIG</p>
+          <h3>首次使用清单</h3>
+          <ol>
+            <li>创建管理员账号，密码不写死、不默认生成。</li>
+            <li>进入“系统设置 → 115 网盘”，扫码或填写 Cookie。</li>
+            <li>在高级设置中配置 TMDB API Key，影院刮削固定使用 TMDB。</li>
+            <li>按需配置 STRM 根目录、FFmpeg / FFprobe 和网络代理。</li>
+            <li>进入影院选择目录，依次运行目录树、STRM 和刮削任务。</li>
+            <li>在任务中心和运行日志中检查每条按钮操作与 API 请求。</li>
+          </ol>
+          <div class="notice"><strong>版本：</strong>官网当前对应 PanMVP <code>0.2.0</code>。更新日志会记录每项用户可见功能。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container cta-band">
+        <p class="eyebrow">PANMVP DOCUMENTATION</p>
+        <h2>先读 Wiki，再开始整理你的媒体库</h2>
+        <p>说明书覆盖安装、115 配置、播放、TMDB 影院、任务、日志、通知和常见问题；版本页则记录每次功能更新。</p>
+        <div class="hero-actions"><a class="button primary" href="./guide.html">打开 Wiki 说明书</a><a class="button" href="./changelog.html">查看版本更新</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© <span data-year></span> PanMVP · 本地优先的 115 网盘媒体控制中枢</div>
+      <div class="footer-links"><a href="./guide.html">Wiki</a><a href="./changelog.html">更新日志</a><a href="./guide.html#security">安全说明</a><a href="#features">功能</a></div>
+    </div>
+  </footer>
+  <script src="./assets/site.js" defer></script>
+</body>
+</html>
