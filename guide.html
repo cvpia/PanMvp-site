@@ -44,7 +44,7 @@
 
     <div class="doc-content">
       <section class="doc-hero">
-        <p class="eyebrow">WIKI / PANMVP 0.2.2</p>
+        <p class="eyebrow">WIKI / PANMVP 0.2.3</p>
         <h1>PanMVP 使用说明书</h1>
         <p>从首次运行到 115 账号、播放、影院刮削、任务和日志排障。以 Windows 本机运行为主，同时提供官方 Docker 镜像。</p>
       </section>
@@ -88,7 +88,7 @@ npm run dev</code></pre>
 
       <section class="doc-section" id="docker">
         <h2>Docker 镜像部署（可选）</h2>
-        <p>除本机运行外，PanMVP 提供官方镜像 <code>xxoo520zls/panmvp:0.2.2</code>（滚动标签 <code>xxoo520zls/panmvp:latest</code>）。镜像内置 Python 3.12、FFmpeg 与构建好的前端，宿主机无需安装 Python 和 Node。</p>
+        <p>除本机运行外，PanMVP 提供官方镜像 <code>xxoo520zls/panmvp:0.2.3</code>（滚动标签 <code>xxoo520zls/panmvp:latest</code>）。镜像内置 Python 3.12、FFmpeg、Vulkan 软件驱动（lavapipe）与构建好的前端，宿主机无需安装 Python、Node 或额外显卡驱动。</p>
         <h3>启动容器</h3>
         <pre><code>docker run -d --name panmvp `
   --restart unless-stopped `
@@ -96,7 +96,7 @@ npm run dev</code></pre>
   -v panmvp-data:/data `
   -e PANMVP_SECRET_KEY="&lt;32 位以上随机字符串&gt;" `
   -e PANMVP_PUBLIC_BASE_URL="http://localhost:8787" `
-  xxoo520zls/panmvp:0.2.2</code></pre>
+  xxoo520zls/panmvp:0.2.3</code></pre>
         <p>浏览器打开 <code>http://localhost:8787</code>，首次运行同样会引导创建管理员账号。</p>
         <ul>
           <li><code>/data</code> 是唯一必须持久化的目录，保存 <code>panmvp.db</code>、<code>local.secret</code> 和 <code>logs/</code>。</li>
@@ -109,14 +109,14 @@ npm run dev</code></pre>
   -p 8787:8787 `
   -v panmvp-data:/data `
   -v D:\Media\strm:/strm `
-  xxoo520zls/panmvp:0.2.2</code></pre>
+  xxoo520zls/panmvp:0.2.3</code></pre>
         <p>然后在“系统设置 → STRM 生成”里把本地输出目录填成容器内路径 <code>/strm</code>，不要填宿主机路径 <code>D:\Media\strm</code>。</p>
         <h3>运维、升级与备份</h3>
         <pre><code>docker logs -f panmvp     # 查看应用与容器日志
 docker restart panmvp     # 重启
 docker rm -f panmvp       # 删除容器，数据卷保留
 
-docker pull xxoo520zls/panmvp:0.2.2
+docker pull xxoo520zls/panmvp:0.2.3
 docker rm -f panmvp       # 再用相同参数重新创建容器
 
 docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
@@ -205,7 +205,7 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
         <p>兼容防盗链或局域网问题，服务端完整转发 <code>Range</code>、<code>Content-Range</code>、<code>Accept-Ranges</code> 和 <code>206</code> 响应，支持拖动。</p>
         <h3>HLS 回退</h3>
         <p>302 失效时，可使用本机 FFmpeg 生成 HLS。多音轨会被映射为可切换轨道，缓存会在播放结束后清理。</p>
-        <p>影院播放器保留上下黑色背景，播放按钮、控制按钮和文字使用高亮青色与发光边框，避免在黑色区域中难以区分。</p>
+        <p>影院播放器保留上下黑色背景，播放按钮、控制按钮和文字使用高亮青色与发光边框，避免在黑色区域中难以区分。杜比 Vision 会通过 <code>libplacebo</code> 处理 Dolby Vision 元数据并转为 BT.709 SDR；HDR10/HLG 使用 <code>zscale + tonemap</code>。若自动转码失败，HDR/DV 会停止播放并提示原因，避免回退直链后再次偏色。</p>
         <table>
           <thead><tr><th>场景</th><th>建议</th></tr></thead>
           <tbody>
@@ -330,7 +330,7 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP Wiki · v0.2.2</div>
+      <div>© <span data-year></span> PanMVP Wiki · v0.2.3</div>
       <div class="footer-links"><a href="./index.html">官网首页</a><a href="./changelog.html">更新日志</a><a href="#quickstart">快速开始</a></div>
     </div>
   </footer>

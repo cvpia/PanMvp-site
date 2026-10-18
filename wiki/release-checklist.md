@@ -2,7 +2,7 @@
 
 每个面向用户的功能版本必须完成：
 
-- [ ] 每次代码改动递增补丁版本（默认 patch；用户指定时按 minor/major），同步更新 `VERSION`、`frontend/package.json`、`frontend/package-lock.json`、`backend/pyproject.toml`。
+- [ ] 每次代码改动递增补丁版本（默认 patch；用户指定时按 minor/major），同步更新 `VERSION`、`frontend/package.json`、`frontend/package-lock.json`、`backend/pyproject.toml`、`backend/app/version.py`、README、官网和 Wiki。
 - [ ] 确认登录页、初始化页和控制台顶栏显示同一版本号。
 - [ ] 更新 `docs/changelog.html`。
 - [ ] 更新 `docs/guide.html` 和 Wiki Markdown。

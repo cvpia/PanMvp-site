@@ -37,7 +37,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 
 ## Docker 镜像部署（可选）
 
-官方镜像：`xxoo520zls/panmvp:0.2.2`，滚动标签 `xxoo520zls/panmvp:latest`。
+官方镜像：`xxoo520zls/panmvp:0.2.3`，滚动标签 `xxoo520zls/panmvp:latest`。
 
 ### 启动容器
 
@@ -48,7 +48,7 @@ docker run -d --name panmvp `
   -v panmvp-data:/data `
   -e PANMVP_SECRET_KEY="<32 位以上随机字符串>" `
   -e PANMVP_PUBLIC_BASE_URL="http://localhost:8787" `
-  xxoo520zls/panmvp:0.2.2
+  xxoo520zls/panmvp:0.2.3
 ```
 
 浏览器打开 `http://localhost:8787`，首次运行同样会引导创建管理员账号。
@@ -56,7 +56,7 @@ docker run -d --name panmvp `
 - `/data` 是唯一必须持久化的目录，保存 `panmvp.db`、`local.secret` 和 `logs/`。
 - 未设置 `PANMVP_SECRET_KEY` 时，容器首次启动会在 `/data/local.secret` 生成随机密钥并复用；一旦设置就不要再更换，否则旧密文无法解密。
 - `PANMVP_PUBLIC_BASE_URL` 用于生成 STRM 播放地址和分享链接，局域网访问请改成 `http://<宿主机 IP>:8787`。
-- 镜像内已包含 Python 3.12、FFmpeg 和构建好的前端静态文件。
+- 镜像内已包含 Python 3.12、FFmpeg、Vulkan 软件驱动（lavapipe）和构建好的前端静态文件；杜比 Vision 的 <code>libplacebo</code> 色调映射无需额外安装驱动。
 
 ### 挂载 STRM 输出目录
 
@@ -67,7 +67,7 @@ docker run -d --name panmvp `
   -p 8787:8787 `
   -v panmvp-data:/data `
   -v D:\Media\strm:/strm `
-  xxoo520zls/panmvp:0.2.2
+  xxoo520zls/panmvp:0.2.3
 ```
 
 然后在“系统设置 → STRM 生成”里把本地输出目录填成容器内路径 `/strm`，不要填宿主机路径 `D:\Media\strm`。
@@ -84,7 +84,7 @@ docker rm -f panmvp       # 删除容器，数据卷保留
 ### 升级
 
 ```powershell
-docker pull xxoo520zls/panmvp:0.2.2
+docker pull xxoo520zls/panmvp:0.2.3
 docker rm -f panmvp
 # 使用相同的 docker run 参数重新创建容器，数据卷 panmvp-data 继续复用
 ```

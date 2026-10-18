@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#04070d" />
-  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.2，包含默认目录自动转存、聚影自动登录、订阅成功记录、115 永久会员展示和播放器高对比控制区。" />
+  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.3，包含杜比/HDR 色调映射、聚影自动登录、订阅成功记录、115 永久会员展示和播放器高对比控制区。" />
   <title>版本更新 · PanMVP</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2218%22 fill=%22%2307101c%22/><path d=%22M16 42V22h7l9 12 9-12h7v20h-7V32l-9 12-9-12v10z%22 fill=%22%2348e4ff%22/></svg>" />
   <link rel="stylesheet" href="./assets/styles.css" />
@@ -26,6 +26,7 @@
   <main class="container doc-layout">
     <aside class="doc-sidebar">
       <strong>版本目录</strong>
+      <a href="#v023-hdr">v0.2.3 · HDR / 杜比色彩修复</a>
       <a href="#v022-resource">v0.2.2 · 资源转存与播放器优化</a>
       <a href="#v021">v0.2.1 · 目录树与 STRM</a>
       <a href="#v021-polish">v0.2.1 · 体验优化</a>
@@ -40,11 +41,44 @@
       <section class="doc-hero">
         <p class="eyebrow">RELEASE NOTES</p>
         <h1>PanMVP 更新记录</h1>
-        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.2</code>。</p>
+        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.3</code>。</p>
+      </section>
+
+      <section class="release" id="v023-hdr">
+        <h2>v0.2.3 · HDR / 杜比色彩修复 <span class="tag-new">LATEST</span></h2>
+        <time datetime="2026-10-19">2026-10-19</time>
+        <p>本版本修复杜比 Vision、HDR/HLG 和 HEVC 影片在浏览器中偏色、发灰或颜色异常的问题，并在 Web 全站显示当前版本号。</p>
+        <div class="release-grid">
+          <div>
+            <strong>播放色彩修复</strong>
+            <ul>
+              <li>杜比 Vision、HDR10、HLG、10-bit 和 HEVC 影片自动优先使用 HLS 转码，不再直接交给浏览器解码。</li>
+              <li>杜比 Vision 使用 <code>libplacebo</code> 在 Vulkan 上应用 Dolby Vision 元数据并做 BT.2390 色调映射；HDR10/HLG 使用 <code>zscale + tonemap</code> 转换为 BT.709 SDR。</li>
+              <li>转码固定输出 8-bit yuv420p、TV range 和 BT.709 色彩标记，避免颜色发灰、偏紫、偏绿或高光溢出。</li>
+              <li>HDR/DV 自动转码失败时停止播放并提示原因，不再回退到已知会偏色的直链。</li>
+              <li>没有 ffprobe 时从 FFmpeg 日志解析 HDR/DV 元数据；本机和 Docker 都能自动识别。</li>
+              <li>普通 H.264 仍保持 302 直链播放，避免不必要的 CPU 转码。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>版本展示</strong>
+            <ul>
+              <li>登录页、初始化页和控制台顶栏显示当前版本号。</li>
+              <li>版本号统一读取后端 <code>VERSION</code>，不依赖前端硬编码。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>发布与镜像</strong>
+            <ul>
+              <li>Docker Hub 发布 <code>0.2.3</code> 与 <code>latest</code>；Alpine 运行层包含 FFmpeg、<code>vulkan-loader</code> 和 <code>mesa-vulkan-swrast</code> 软件 Vulkan 驱动。</li>
+              <li>Playback 提示和 HLS 会话会返回 HDR/DV 信息，播放器显示当前转码模式。</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section class="release" id="v022-resource">
-        <h2>v0.2.2 · 资源转存与播放器优化 <span class="tag-new">LATEST</span></h2>
+        <h2>v0.2.2 · 资源转存与播放器优化</h2>
         <time datetime="2026-10-18">2026-10-18</time>
         <p>本次优化资源搜索转存、聚影登录、订阅成功记录、115 账号资料展示和影院播放器控制区；不涉及数据库结构迁移。</p>
         <div class="release-grid">
@@ -259,7 +293,7 @@ docs/assets/</code></pre>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP · v0.2.2</div>
+      <div>© <span data-year></span> PanMVP · v0.2.3</div>
       <div class="footer-links"><a href="./index.html">官网首页</a><a href="./guide.html">Wiki 说明书</a><a href="#v022-resource">最新版本</a></div>
     </div>
   </footer>
