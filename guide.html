@@ -87,7 +87,7 @@ npm run dev</code></pre>
 
       <section class="doc-section" id="docker">
         <h2>Docker 镜像部署（可选）</h2>
-        <p>除本机运行外，PanMVP 提供官方镜像 <code>xxoo520zls/panmvp:0.2.1</code>（滚动标签 <code>xxoo520zls/panmvp:latest</code>）。镜像内置 Python 3.12、FFmpeg 与构建好的前端，宿主机无需安装 Python 和 Node。</p>
+        <p>除本机运行外，PanMVP 提供官方镜像 <code>xxoo520zls/panmvp:0.2.2</code>（滚动标签 <code>xxoo520zls/panmvp:latest</code>）。镜像内置 Python 3.12、FFmpeg 与构建好的前端，宿主机无需安装 Python 和 Node。</p>
         <h3>启动容器</h3>
         <pre><code>docker run -d --name panmvp `
   --restart unless-stopped `
@@ -95,7 +95,7 @@ npm run dev</code></pre>
   -v panmvp-data:/data `
   -e PANMVP_SECRET_KEY="&lt;32 位以上随机字符串&gt;" `
   -e PANMVP_PUBLIC_BASE_URL="http://localhost:8787" `
-  xxoo520zls/panmvp:0.2.1</code></pre>
+  xxoo520zls/panmvp:0.2.2</code></pre>
         <p>浏览器打开 <code>http://localhost:8787</code>，首次运行同样会引导创建管理员账号。</p>
         <ul>
           <li><code>/data</code> 是唯一必须持久化的目录，保存 <code>panmvp.db</code>、<code>local.secret</code> 和 <code>logs/</code>。</li>
@@ -108,14 +108,14 @@ npm run dev</code></pre>
   -p 8787:8787 `
   -v panmvp-data:/data `
   -v D:\Media\strm:/strm `
-  xxoo520zls/panmvp:0.2.1</code></pre>
+  xxoo520zls/panmvp:0.2.2</code></pre>
         <p>然后在“系统设置 → STRM 生成”里把本地输出目录填成容器内路径 <code>/strm</code>，不要填宿主机路径 <code>D:\Media\strm</code>。</p>
         <h3>运维、升级与备份</h3>
         <pre><code>docker logs -f panmvp     # 查看应用与容器日志
 docker restart panmvp     # 重启
 docker rm -f panmvp       # 删除容器，数据卷保留
 
-docker pull xxoo520zls/panmvp:0.2.1
+docker pull xxoo520zls/panmvp:0.2.2
 docker rm -f panmvp       # 再用相同参数重新创建容器
 
 docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
