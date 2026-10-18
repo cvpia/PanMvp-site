@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#04070d" />
-  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.1，包含本地目录树、全量/增量 STRM、115 个人资料与空间展示。" />
+  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.2，包含默认目录自动转存、聚影自动登录、订阅成功记录、115 永久会员展示和播放器高对比控制区。" />
   <title>版本更新 · PanMVP</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2218%22 fill=%22%2307101c%22/><path d=%22M16 42V22h7l9 12 9-12h7v20h-7V32l-9 12-9-12v10z%22 fill=%22%2348e4ff%22/></svg>" />
   <link rel="stylesheet" href="./assets/styles.css" />
@@ -26,7 +26,9 @@
   <main class="container doc-layout">
     <aside class="doc-sidebar">
       <strong>版本目录</strong>
-      <a href="#v021">v0.2.1 · 当前版本</a>
+      <a href="#v022-resource">v0.2.2 · 资源转存与播放器优化</a>
+      <a href="#v021">v0.2.1 · 目录树与 STRM</a>
+      <a href="#v021-polish">v0.2.1 · 体验优化</a>
       <a href="#v021-docker">v0.2.1 · Docker 镜像</a>
       <a href="#v020">v0.2.0</a>
       <a href="#v012">v0.1.2</a>
@@ -38,11 +40,45 @@
       <section class="doc-hero">
         <p class="eyebrow">RELEASE NOTES</p>
         <h1>PanMVP 更新记录</h1>
-        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.1</code>。</p>
+        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.2</code>。</p>
+      </section>
+
+      <section class="release" id="v022-resource">
+        <h2>v0.2.2 · 资源转存与播放器优化 <span class="tag-new">LATEST</span></h2>
+        <time datetime="2026-10-18">2026-10-18</time>
+        <p>本次优化资源搜索转存、聚影登录、订阅成功记录、115 账号资料展示和影院播放器控制区；不涉及数据库结构迁移。</p>
+        <div class="release-grid">
+          <div>
+            <strong>资源与订阅</strong>
+            <ul>
+              <li>资源添加默认使用 115 默认转存目录，不再强制弹出目录选择窗口。</li>
+              <li>系统设置新增“资源添加时显示目录选择弹窗”开关，默认关闭；需要逐次选择目录时再开启。</li>
+              <li>默认目录未设置时，添加资源会先弹出默认目录设置窗口。</li>
+              <li>磁力链接和电驴链接统一提交 115 云下载；多链接时选择文件最大的链接，订阅选择文件最大的资源。</li>
+              <li>聚影 Token 失效时使用已保存账号密码自动重新登录并重试，新 Token 加密保存。</li>
+              <li>新增“转存成功 / 已转存资源”页面，集中展示订阅成功转存和云下载记录。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>115 资料与播放</strong>
+            <ul>
+              <li>115 资料卡显示真实网盘头像，头像由本机后端代理读取，避免防盗链失败。</li>
+              <li>会员状态优先显示到期时间；永久会员显示“永久会员”，并使用金色背景标识。</li>
+              <li>影院播放器保留黑色视频上下区域，播放按钮、控制按钮和文字改为高亮青色，提升对比度。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>兼容与测试</strong>
+            <ul>
+              <li>补充默认目录、弹窗开关、聚影自动登录、最大资源选择和前端转存流程测试。</li>
+              <li>浏览器验证设置页、资源弹窗、订阅成功页和影院播放器；移动端导航与入口保持可用。</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section class="release" id="v021">
-        <h2>v0.2.1 <span class="tag-new">LATEST</span></h2>
+        <h2>v0.2.1 · 目录树与 STRM <span class="tag-new">NEW</span></h2>
         <time datetime="2026-10-10">2026-10-10</time>
         <p>本版本重构目录树与 STRM 生成方式，移除文件管理中的 115 官方目录树入口，并完善本地目录选择和 115 个人资料展示。</p>
         <div class="release-grid">
@@ -73,6 +109,41 @@
               <li>旧官方目录树清理只处理名称包含“目录树”的导出文件，不删除媒体。</li>
               <li>删除 STRM 映射默认保留已生成的本地 STRM 和目录树文件。</li>
               <li>版本号同步更新为 <code>0.2.1</code>。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="release" id="v021-polish">
+        <h2>v0.2.1 · 体验优化 <span class="tag-new">NEW</span></h2>
+        <time datetime="2026-10-15">2026-10-15</time>
+        <p>应用版本仍为 <code>0.2.1</code>，本次为界面与网络链路优化，不涉及数据库结构变更，升级后无需迁移。</p>
+        <div class="release-grid">
+          <div>
+            <strong>网络修复</strong>
+            <ul>
+              <li>“系统设置 → 网络代理”现在对全部外部请求生效，包括影院海报下载、TMDB、豆瓣、Bangumi、Emby、聚影和通知推送。</li>
+              <li>此前只有刮削任务读取界面代理，海报补全会退回环境变量，导致日志出现“All connection attempts failed”。</li>
+              <li>缺少海报的条目在 6 小时内不会重复请求 TMDB，减少接口调用与告警日志。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>界面修复</strong>
+            <ul>
+              <li>文件管理的“修改时间”显示完整日期，不再出现原始 Unix 时间戳。</li>
+              <li>修复运行日志页“查询日志”按钮被挤压成竖排文字的问题。</li>
+              <li>修复影院筛选栏在桌面端占满半屏、下拉框竖排堆叠的问题。</li>
+              <li>修复晨光主题下网盘切换标签、筛选胶囊和实时同步角标文字看不清的问题。</li>
+              <li>移动端指标卡改为两列，运行日志筛选栏自动换行。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>性能与日志</strong>
+            <ul>
+              <li>影院实时同步改为内容签名比对，内容未变化时不再整页重绘，轮询间隔从 2 秒调整为 5 秒。</li>
+              <li>影院卡片缺图时直接展示占位图，不再产生必然失败的图片请求。</li>
+              <li>补全海报未匹配属于正常结果，接口返回 200 并在界面显示占位图，不再计入运行日志的失败统计。</li>
+              <li>运行日志页离开页面时清理自动刷新定时器，自动刷新不再重复请求日期列表。</li>
             </ul>
           </div>
         </div>
@@ -186,7 +257,7 @@ docs/assets/</code></pre>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP · v0.2.1</div>
+      <div>© <span data-year></span> PanMVP · v0.2.2</div>
       <div class="footer-links"><a href="./index.html">官网首页</a><a href="./guide.html">Wiki 说明书</a><a href="#v021">最新版本</a></div>
     </div>
   </footer>

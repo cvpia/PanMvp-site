@@ -30,6 +30,7 @@
       <a href="#installation">安装与升级</a>
       <a href="#docker">Docker 部署</a>
       <a href="#115">115 网盘</a>
+      <a href="#resource-transfer">资源转存与订阅</a>
       <a href="#files">文件管理</a>
       <a href="#strm">STRM 生成</a>
       <a href="#playback">播放链路</a>
@@ -43,7 +44,7 @@
 
     <div class="doc-content">
       <section class="doc-hero">
-        <p class="eyebrow">WIKI / PANMVP 0.2.1</p>
+        <p class="eyebrow">WIKI / PANMVP 0.2.2</p>
         <h1>PanMVP 使用说明书</h1>
         <p>从首次运行到 115 账号、播放、影院刮削、任务和日志排障。以 Windows 本机运行为主，同时提供官方 Docker 镜像。</p>
       </section>
@@ -127,8 +128,9 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
         <ol>
           <li>进入“系统设置 → 115 网盘”。</li>
           <li>推荐选择扫码客户端，点击“获取二维码”，用 115 App 完成扫码确认。</li>
-          <li>登录成功后检查个人资料卡：用户名、账号 ID、会员状态、到期时间，以及从 115 个人空间接口读取的总容量、已用和剩余空间。</li>
-          <li>设置默认转存目录，点击“保存账号设置”。</li>
+          <li>登录成功后检查个人资料卡：真实头像、用户名、账号 ID、会员到期时间，以及从 115 个人空间接口读取的总容量、已用和剩余空间。</li>
+          <li>设置默认转存目录，点击“保存账号设置”。如果默认目录未设置，首次添加资源时会先弹出默认目录设置窗口。</li>
+          <li>永久 VIP 会显示金色“永久会员”标识；普通 VIP 显示到期时间。</li>
         </ol>
         <h3>Cookie 直填</h3>
         <p>也可以填写类似下面的 Cookie。Cookie 只会加密写入本机 SQLite，前端不会回显原文。</p>
@@ -136,6 +138,25 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
         <div class="notice"><strong>安全：</strong>不要把 Cookie 发到公开聊天、截图、Issue 或 GitHub Pages。该信息等同于账号会话凭据。</div>
         <h3>文件管理页面的网盘标签</h3>
         <p>标签会显示“115 网盘 + 网盘用户名 + 账号 ID”，便于区分多个账号和排查连接状态。</p>
+      </section>
+
+      <section class="doc-section" id="resource-transfer">
+        <h2>资源搜索、自动转存与订阅</h2>
+        <h3>默认转存目录与弹窗开关</h3>
+        <p>资源添加默认使用“系统设置 → 115 网盘 → 默认转存目录”，不会强制打开 <code>modal-backdrop</code> 目录窗口。</p>
+        <ol>
+          <li>在 115 账号设置中保存一次默认转存目录。</li>
+          <li>进入“系统设置 → 基础设置”，确认“资源添加时显示目录选择弹窗”保持关闭。</li>
+          <li>在资源搜索中点击“添加”，系统直接按默认目录执行分享转存或 115 云下载，成功提示会在几秒后自动消失。</li>
+          <li>如果默认目录从未设置，系统会先弹出默认目录选择窗口；保存后自动继续当前资源操作。</li>
+          <li>需要逐次选择目录时，再开启该弹窗开关；关闭后恢复默认目录自动转存。</li>
+        </ol>
+        <h3>磁力链接与电驴链接</h3>
+        <p>磁力链接和电驴链接统一提交 115 云下载，保存到默认目录。一次资源返回多个链接时，只提交文件最大的一个；订阅任务也会优先选择文件最大的可访问资源。</p>
+        <h3>聚影自动登录</h3>
+        <p>聚影账号只需在“系统设置 → 资源登录”保存一次。Token 失效时，后端会使用已保存账号密码自动重新登录、加密保存新 Token 并重试当前请求；自动登录失败时再提示重新登录。</p>
+        <h3>订阅成功 / 已转存资源</h3>
+        <p>左侧导航新增“转存成功”页面，集中展示订阅匹配后已转存或已提交云下载的记录，包括影片、网盘、目标目录、转存方式和时间。</p>
       </section>
 
       <section class="doc-section" id="files">
@@ -183,6 +204,7 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
         <p>兼容防盗链或局域网问题，服务端完整转发 <code>Range</code>、<code>Content-Range</code>、<code>Accept-Ranges</code> 和 <code>206</code> 响应，支持拖动。</p>
         <h3>HLS 回退</h3>
         <p>302 失效时，可使用本机 FFmpeg 生成 HLS。多音轨会被映射为可切换轨道，缓存会在播放结束后清理。</p>
+        <p>影院播放器保留上下黑色背景，播放按钮、控制按钮和文字使用高亮青色与发光边框，避免在黑色区域中难以区分。</p>
         <table>
           <thead><tr><th>场景</th><th>建议</th></tr></thead>
           <tbody>
@@ -270,6 +292,8 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
           <li>检查文件名是否包含可识别片名、年份或 TMDB/IMDb ID。</li>
           <li>在影院详情中使用“手动校准刮削”选择正确候选。</li>
           <li>查看运行日志中 <code>cinema_poster</code>、<code>cinema_scrape</code> 的错误信息。</li>
+          <li>日志出现 <code>All connection attempts failed</code> 时，在“系统设置 → 基础设置 → 网络代理”填写可用代理，该设置对所有外部请求生效。</li>
+          <li>没有匹配到海报的条目会显示占位图，并在 6 小时冷却后才重新尝试。</li>
         </ol>
         <h3>播放卡顿 / 无法拖动</h3>
         <ol>
@@ -305,7 +329,7 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP Wiki · v0.2.1</div>
+      <div>© <span data-year></span> PanMVP Wiki · v0.2.2</div>
       <div class="footer-links"><a href="./index.html">官网首页</a><a href="./changelog.html">更新日志</a><a href="#quickstart">快速开始</a></div>
     </div>
   </footer>
