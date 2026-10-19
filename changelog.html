@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#04070d" />
-  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.4，包含关于版本页、杜比/HDR 色调映射、聚影自动登录、订阅成功记录和播放器高对比控制区。" />
+  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.5，包含发现订阅专用网络代理、关于版本页、杜比/HDR 色调映射和订阅成功记录。" />
   <title>版本更新 · PanMVP</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2218%22 fill=%22%2307101c%22/><path d=%22M16 42V22h7l9 12 9-12h7v20h-7V32l-9 12-9-12v10z%22 fill=%22%2348e4ff%22/></svg>" />
   <link rel="stylesheet" href="./assets/styles.css" />
@@ -26,6 +26,7 @@
   <main class="container doc-layout">
     <aside class="doc-sidebar">
       <strong>版本目录</strong>
+      <a href="#v025-proxy">v0.2.5 · 发现订阅专用网络代理</a>
       <a href="#v024-about">v0.2.4 · 关于版本与更新中心</a>
       <a href="#v023-hdr">v0.2.3 · HDR / 杜比色彩修复</a>
       <a href="#v022-resource">v0.2.2 · 资源转存与播放器优化</a>
@@ -42,11 +43,43 @@
       <section class="doc-hero">
         <p class="eyebrow">RELEASE NOTES</p>
         <h1>PanMVP 更新记录</h1>
-        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.4</code>。</p>
+        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.5</code>。</p>
+      </section>
+
+      <section class="release" id="v025-proxy">
+        <h2>v0.2.5 · 发现订阅专用网络代理 <span class="tag-new">LATEST</span></h2>
+        <time datetime="2026-10-19">2026-10-19</time>
+        <p>网络代理的作用范围调整为只服务发现订阅中的 TMDB、Bangumi 和 AniList，其他所有后端请求统一直连。</p>
+        <div class="release-grid">
+          <div>
+            <strong>允许使用代理</strong>
+            <ul>
+              <li>发现订阅中的 TMDB 搜索、榜单、详情与网络检测。</li>
+              <li>发现订阅中的 Bangumi 榜单与详情补齐。</li>
+              <li>发现订阅中的 AniList 榜单与详情补齐。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>全部直连</strong>
+            <ul>
+              <li>115 文件、头像、扫码登录、播放与 HLS 转码。</li>
+              <li>聚影登录、资源搜索、磁力/电驴云下载和订阅落盘。</li>
+              <li>影院刮削、海报下载、字幕、弹幕、通知、Emby 和豆瓣请求。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>安全与测试</strong>
+            <ul>
+              <li>删除全局代理缓存和环境变量隐式回退，避免请求意外经过代理。</li>
+              <li>新增作用域测试，静态检查非发现模块不得读取 <code>network_proxy</code>。</li>
+              <li>新增 TMDB、Bangumi、AniList 显式代理与豆瓣直连测试。</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section class="release" id="v024-about">
-        <h2>v0.2.4 · 关于版本与更新中心 <span class="tag-new">LATEST</span></h2>
+        <h2>v0.2.4 · 关于版本与更新中心</h2>
         <time datetime="2026-10-19">2026-10-19</time>
         <p>新增 Web“关于版本”页面，让当前运行版本、近期更新和发布规则在应用内直接可见，并作为后续每次版本更新的固定展示入口。</p>
         <div class="release-grid">
@@ -63,7 +96,7 @@
             <ul>
               <li>新增“刷新版本信息”按钮，重新读取后端运行版本。</li>
               <li>后端版本与前端版本记录不一致时给出明确提示。</li>
-              <li>版本历史维护在 <code>frontend/src/data/releases.ts</code>，后续版本更新同步追加。</li>
+              <li>版本历史维护在 <code>frontend/src/releases.ts</code>，后续版本更新同步追加。</li>
             </ul>
           </div>
           <div>
@@ -191,7 +224,7 @@
           <div>
             <strong>网络修复</strong>
             <ul>
-              <li>“系统设置 → 网络代理”现在对全部外部请求生效，包括影院海报下载、TMDB、豆瓣、Bangumi、Emby、聚影和通知推送。</li>
+              <li>v0.2.2 时期“系统设置 → 网络代理”曾对全部外部请求生效；该行为已在 v0.2.5 收窄为仅服务发现订阅的 TMDB、Bangumi、AniList。</li>
               <li>此前只有刮削任务读取界面代理，海报补全会退回环境变量，导致日志出现“All connection attempts failed”。</li>
               <li>缺少海报的条目在 6 小时内不会重复请求 TMDB，减少接口调用与告警日志。</li>
             </ul>
@@ -326,7 +359,7 @@ docs/assets/</code></pre>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP · v0.2.4</div>
+      <div>© <span data-year></span> PanMVP · v0.2.5</div>
       <div class="footer-links"><a href="./index.html">官网首页</a><a href="./guide.html">Wiki 说明书</a><a href="#v024-about">最新版本</a></div>
     </div>
   </footer>

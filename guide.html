@@ -45,7 +45,7 @@
 
     <div class="doc-content">
       <section class="doc-hero">
-        <p class="eyebrow">WIKI / PANMVP 0.2.4</p>
+        <p class="eyebrow">WIKI / PANMVP 0.2.5</p>
         <h1>PanMVP 使用说明书</h1>
         <p>从首次运行到 115 账号、播放、影院刮削、任务和日志排障。以 Windows 本机运行为主，同时提供官方 Docker 镜像。</p>
       </section>
@@ -100,7 +100,7 @@ npm run dev</code></pre>
 
       <section class="doc-section" id="docker">
         <h2>Docker 镜像部署（可选）</h2>
-        <p>除本机运行外，PanMVP 提供官方镜像 <code>xxoo520zls/panmvp:0.2.4</code>（滚动标签 <code>xxoo520zls/panmvp:latest</code>）。镜像内置 Python 3.12、FFmpeg、Vulkan 软件驱动（lavapipe）与构建好的前端，宿主机无需安装 Python、Node 或额外显卡驱动。</p>
+        <p>除本机运行外，PanMVP 提供官方镜像 <code>xxoo520zls/panmvp:0.2.5</code>（滚动标签 <code>xxoo520zls/panmvp:latest</code>）。镜像内置 Python 3.12、FFmpeg、Vulkan 软件驱动（lavapipe）与构建好的前端，宿主机无需安装 Python、Node 或额外显卡驱动。</p>
         <h3>启动容器</h3>
         <pre><code>docker run -d --name panmvp `
   --restart unless-stopped `
@@ -108,7 +108,7 @@ npm run dev</code></pre>
   -v panmvp-data:/data `
   -e PANMVP_SECRET_KEY="&lt;32 位以上随机字符串&gt;" `
   -e PANMVP_PUBLIC_BASE_URL="http://localhost:8787" `
-  xxoo520zls/panmvp:0.2.4</code></pre>
+  xxoo520zls/panmvp:0.2.5</code></pre>
         <p>浏览器打开 <code>http://localhost:8787</code>，首次运行同样会引导创建管理员账号。</p>
         <ul>
           <li><code>/data</code> 是唯一必须持久化的目录，保存 <code>panmvp.db</code>、<code>local.secret</code> 和 <code>logs/</code>。</li>
@@ -121,14 +121,14 @@ npm run dev</code></pre>
   -p 8787:8787 `
   -v panmvp-data:/data `
   -v D:\Media\strm:/strm `
-  xxoo520zls/panmvp:0.2.4</code></pre>
+  xxoo520zls/panmvp:0.2.5</code></pre>
         <p>然后在“系统设置 → STRM 生成”里把本地输出目录填成容器内路径 <code>/strm</code>，不要填宿主机路径 <code>D:\Media\strm</code>。</p>
         <h3>运维、升级与备份</h3>
         <pre><code>docker logs -f panmvp     # 查看应用与容器日志
 docker restart panmvp     # 重启
 docker rm -f panmvp       # 删除容器，数据卷保留
 
-docker pull xxoo520zls/panmvp:0.2.4
+docker pull xxoo520zls/panmvp:0.2.5
 docker rm -f panmvp       # 再用相同参数重新创建容器
 
 docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
@@ -222,7 +222,7 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
           <thead><tr><th>场景</th><th>建议</th></tr></thead>
           <tbody>
             <tr><td>家庭内网、直链可用</td><td>使用 302，速度最快。</td></tr>
-            <tr><td>播放器提示 403 / 源站防盗链</td><td>切换代理播放或检查网络代理。</td></tr>
+            <tr><td>播放器提示 403 / 源站防盗链</td><td>切换代理播放模式；播放请求不使用基础设置中的网络代理。</td></tr>
             <tr><td>需要多音轨 / 字幕转码</td><td>配置 FFmpeg / FFprobe 并使用 HLS。</td></tr>
           </tbody>
         </table>
@@ -297,7 +297,7 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
           <li>检查是否已扫码或填写 Cookie。</li>
           <li>在 115 网盘设置中点击“刷新信息”和“检测连接”。</li>
           <li>若 Cookie 过期，重新扫码登录。</li>
-          <li>检查系统代理是否能访问 <code>115.com</code> 和 <code>webapi.115.com</code>。</li>
+          <li>检查本机网络是否能直接访问 <code>115.com</code> 和 <code>webapi.115.com</code>；基础设置中的网络代理不会用于 115 请求。</li>
         </ol>
         <h3>影院刮削没有海报或信息</h3>
         <ol>
@@ -305,7 +305,7 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
           <li>检查文件名是否包含可识别片名、年份或 TMDB/IMDb ID。</li>
           <li>在影院详情中使用“手动校准刮削”选择正确候选。</li>
           <li>查看运行日志中 <code>cinema_poster</code>、<code>cinema_scrape</code> 的错误信息。</li>
-          <li>日志出现 <code>All connection attempts failed</code> 时，在“系统设置 → 基础设置 → 网络代理”填写可用代理，该设置对所有外部请求生效。</li>
+          <li>影院刮削的 TMDB 请求不走基础设置中的发现订阅代理；请先检查本机能否直连 TMDB。发现订阅页面中的 TMDB、Bangumi、AniList 才使用该网络代理。</li>
           <li>没有匹配到海报的条目会显示占位图，并在 6 小时冷却后才重新尝试。</li>
         </ol>
         <h3>播放卡顿 / 无法拖动</h3>
@@ -342,7 +342,7 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP Wiki · v0.2.4</div>
+      <div>© <span data-year></span> PanMVP Wiki · v0.2.5</div>
       <div class="footer-links"><a href="./index.html">官网首页</a><a href="./changelog.html">更新日志</a><a href="#quickstart">快速开始</a></div>
     </div>
   </footer>

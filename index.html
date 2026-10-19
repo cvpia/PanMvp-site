@@ -36,7 +36,7 @@
           <p class="hero-copy">PanMVP 把网盘文件、资源搜索、302/HLS 播放、TMDB 刮削、订阅任务、Emby 与运行日志收进一个本地控制中枢。数据留在你的电脑，体验接近成熟的媒体服务器。</p>
           <div class="hero-actions">
             <a class="button primary" href="./guide.html#quickstart">查看安装说明 →</a>
-            <a class="button" href="./changelog.html">v0.2.4 更新内容</a>
+            <a class="button" href="./changelog.html">v0.2.5 更新内容</a>
           </div>
           <div class="hero-badges">
             <span class="pill">本机 FastAPI</span>
@@ -96,7 +96,8 @@
         <div class="feature-grid">
           <article class="feature-card"><div class="feature-icon">◫</div><h3>115 原生文件管理</h3><p>浏览、下载、重命名、复制、移动、删除、官方分享和云下载，不修改网盘源文件结构。</p><span class="tag">115 WEBAPI</span></article>
           <article class="feature-card"><div class="feature-icon">▶</div><h3>302 + HLS 双播放链路</h3><p>优先 302 直链；杜比 Vision、HDR/HLG 和 HEVC 自动走 SDR HLS 色调映射，避免偏色，同时保留黑色影院质感和高亮控制按钮。</p><span class="tag">HIGH CONTRAST</span></article>
-          <article class="feature-card"><div class="feature-icon">ⓘ</div><h3>关于版本与更新中心</h3><p>Web 侧边栏新增“关于版本”，动态展示后端运行版本、近期更新记录、版本一致性提示和发布规则。</p><span class="tag">V0.2.4 重点</span></article>
+          <article class="feature-card"><div class="feature-icon">⇄</div><h3>发现订阅专用代理</h3><p>网络代理只服务发现订阅中的 TMDB、Bangumi 和 AniList；115、聚影、影院刮削、字幕、通知、Emby 与播放全部直连。</p><span class="tag">V0.2.5 重点</span></article>
+          <article class="feature-card"><div class="feature-icon">ⓘ</div><h3>关于版本与更新中心</h3><p>Web 侧边栏新增“关于版本”，动态展示后端运行版本、近期更新记录、版本一致性提示和发布规则。</p><span class="tag">VERSION CENTER</span></article>
           <article class="feature-card"><div class="feature-icon">✦</div><h3>独立 TMDB 刮削器</h3><p>文件名清洗、TMDB/IMDb ID 识别、候选评分、演员与剧照补全、Emby/Kodi 兼容 NFO，一次入库。</p><span class="tag">TMDB SCRAPER</span></article>
           <article class="feature-card"><div class="feature-icon">≋</div><h3>任务控制中心</h3><p>串行任务、断点继续、状态进度、失败重试和新增的一键删除；所有任务都有可追踪结果。</p><span class="tag">ONE-CLICK CLEAN</span></article>
           <article class="feature-card"><div class="feature-icon">◎</div><h3>115 账号资料卡</h3><p>展示本机代理读取的真实网盘头像、用户名、账号 ID、到期时间和空间；永久会员使用金色背景标识。</p><span class="tag">GOLD MEMBER</span></article>
@@ -163,7 +164,7 @@
         <div class="spotlight">
           <p class="eyebrow">QUICK START</p>
           <h3>Windows 本机运行，两条命令启动</h3>
-          <p>默认使用本机 Python、Node 和 SQLite；也提供官方 Docker 镜像 <code>xxoo520zls/panmvp:0.2.4</code>。首次启动后在网页中创建管理员账号。</p>
+          <p>默认使用本机 Python、Node 和 SQLite；也提供官方 Docker 镜像 <code>xxoo520zls/panmvp:0.2.5</code>。首次启动后在网页中创建管理员账号。</p>
           <pre><code>Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\local.ps1 setup
 .\scripts\local.ps1 start</code></pre>
@@ -171,7 +172,7 @@
           <p>Docker 部署可选，一条命令即可启动：</p>
           <pre><code>docker run -d --name panmvp -p 8787:8787 \
   -v panmvp-data:/data \
-  xxoo520zls/panmvp:0.2.4</code></pre>
+  xxoo520zls/panmvp:0.2.5</code></pre>
           <div class="hero-actions"><a class="button primary" href="./guide.html#installation">完整安装教程</a><a class="button" href="./guide.html#docker">Docker 部署</a><a class="button" href="./guide.html#troubleshooting">故障排查</a></div>
         </div>
         <div class="spotlight">
@@ -182,10 +183,10 @@
             <li>进入“系统设置 → 115 网盘”，扫码或填写 Cookie。</li>
             <li>在高级设置中配置 TMDB API Key，影院刮削固定使用 TMDB。</li>
             <li>在“系统设置 → STRM 生成”配置 115 目录与本地输出目录映射。</li>
-            <li>按需配置 TMDB、STRM 根目录、FFmpeg / FFprobe 和网络代理，再进入影院运行刮削任务。</li>
+            <li>按需配置 TMDB、STRM 根目录、FFmpeg / FFprobe；网络代理仅在发现订阅需要访问 TMDB、Bangumi、AniList 时填写。</li>
             <li>在任务中心和运行日志中检查每条按钮操作与 API 请求。</li>
           </ol>
-          <div class="notice"><strong>版本：</strong>官网当前对应 PanMVP <code>0.2.4</code>。登录页与控制台顶栏也会显示当前版本号，更新日志会记录每项用户可见功能。</div>
+          <div class="notice"><strong>版本：</strong>官网当前对应 PanMVP <code>0.2.5</code>。登录页与控制台顶栏也会显示当前版本号，更新日志会记录每项用户可见功能。</div>
         </div>
       </div>
     </section>

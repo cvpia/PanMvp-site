@@ -34,6 +34,7 @@
 - 左侧“关于版本”页动态展示后端运行版本、近期更新、版本一致性提示和官方资源入口；点击“刷新版本信息”可重新读取。
 - 杜比 Vision 使用 libplacebo + Vulkan 处理 Dolby Vision 元数据，HDR10/HLG 使用 zscale + tonemap，统一输出 BT.709 SDR；HEVC 影片优先走 HLS 兼容转码。
 - HDR/DV 自动转码失败时会阻止直链播放，避免回退后再次出现偏色。
+- 基础设置中的网络代理只用于发现订阅的 TMDB、Bangumi、AniList；115、聚影、影院刮削、字幕、通知、Emby 和播放统一直连。
 - 版本号由后端读取仓库根目录 `VERSION`，Docker 镜像由 `APP_VERSION` 构建参数注入。
 
 ## 115 资料展示
