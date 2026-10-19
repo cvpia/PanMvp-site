@@ -37,7 +37,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 
 ## Docker 镜像部署（可选）
 
-官方镜像：`xxoo520zls/panmvp:0.2.3`，滚动标签 `xxoo520zls/panmvp:latest`。
+官方镜像：`xxoo520zls/panmvp:0.2.4`，滚动标签 `xxoo520zls/panmvp:latest`。
 
 ### 启动容器
 
@@ -48,7 +48,7 @@ docker run -d --name panmvp `
   -v panmvp-data:/data `
   -e PANMVP_SECRET_KEY="<32 位以上随机字符串>" `
   -e PANMVP_PUBLIC_BASE_URL="http://localhost:8787" `
-  xxoo520zls/panmvp:0.2.3
+  xxoo520zls/panmvp:0.2.4
 ```
 
 浏览器打开 `http://localhost:8787`，首次运行同样会引导创建管理员账号。
@@ -67,7 +67,7 @@ docker run -d --name panmvp `
   -p 8787:8787 `
   -v panmvp-data:/data `
   -v D:\Media\strm:/strm `
-  xxoo520zls/panmvp:0.2.3
+  xxoo520zls/panmvp:0.2.4
 ```
 
 然后在“系统设置 → STRM 生成”里把本地输出目录填成容器内路径 `/strm`，不要填宿主机路径 `D:\Media\strm`。
@@ -84,7 +84,7 @@ docker rm -f panmvp       # 删除容器，数据卷保留
 ### 升级
 
 ```powershell
-docker pull xxoo520zls/panmvp:0.2.3
+docker pull xxoo520zls/panmvp:0.2.4
 docker rm -f panmvp
 # 使用相同的 docker run 参数重新创建容器，数据卷 panmvp-data 继续复用
 ```

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#04070d" />
-  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.3，包含杜比/HDR 色调映射、聚影自动登录、订阅成功记录、115 永久会员展示和播放器高对比控制区。" />
+  <meta name="description" content="PanMVP 版本更新记录，当前版本 0.2.4，包含关于版本页、杜比/HDR 色调映射、聚影自动登录、订阅成功记录和播放器高对比控制区。" />
   <title>版本更新 · PanMVP</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2218%22 fill=%22%2307101c%22/><path d=%22M16 42V22h7l9 12 9-12h7v20h-7V32l-9 12-9-12v10z%22 fill=%22%2348e4ff%22/></svg>" />
   <link rel="stylesheet" href="./assets/styles.css" />
@@ -26,6 +26,7 @@
   <main class="container doc-layout">
     <aside class="doc-sidebar">
       <strong>版本目录</strong>
+      <a href="#v024-about">v0.2.4 · 关于版本与更新中心</a>
       <a href="#v023-hdr">v0.2.3 · HDR / 杜比色彩修复</a>
       <a href="#v022-resource">v0.2.2 · 资源转存与播放器优化</a>
       <a href="#v021">v0.2.1 · 目录树与 STRM</a>
@@ -41,11 +42,43 @@
       <section class="doc-hero">
         <p class="eyebrow">RELEASE NOTES</p>
         <h1>PanMVP 更新记录</h1>
-        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.3</code>。</p>
+        <p>每次面向用户的功能变更都会同步到官网、版本页和 Wiki。当前官网对应 PanMVP <code>0.2.4</code>。</p>
+      </section>
+
+      <section class="release" id="v024-about">
+        <h2>v0.2.4 · 关于版本与更新中心 <span class="tag-new">LATEST</span></h2>
+        <time datetime="2026-10-19">2026-10-19</time>
+        <p>新增 Web“关于版本”页面，让当前运行版本、近期更新和发布规则在应用内直接可见，并作为后续每次版本更新的固定展示入口。</p>
+        <div class="release-grid">
+          <div>
+            <strong>关于版本页</strong>
+            <ul>
+              <li>侧边栏新增“关于版本”，桌面端和移动端导航都可进入。</li>
+              <li>当前版本通过后端 <code>/api/setup/status</code> 动态读取，避免前端写死后与部署版本不一致。</li>
+              <li>页面展示最近版本记录、发布规则、官网 Wiki 和 Docker Hub 入口。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>版本一致性</strong>
+            <ul>
+              <li>新增“刷新版本信息”按钮，重新读取后端运行版本。</li>
+              <li>后端版本与前端版本记录不一致时给出明确提示。</li>
+              <li>版本历史维护在 <code>frontend/src/data/releases.ts</code>，后续版本更新同步追加。</li>
+            </ul>
+          </div>
+          <div>
+            <strong>发布规范</strong>
+            <ul>
+              <li>每次代码改动递增补丁版本，并同步所有版本文件和 Web 显示。</li>
+              <li>官网更新记录、Wiki、模型标签和“关于版本”页保持同一版本。</li>
+              <li>浏览器验证桌面端、移动端和导航后再提交发布。</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section class="release" id="v023-hdr">
-        <h2>v0.2.3 · HDR / 杜比色彩修复 <span class="tag-new">LATEST</span></h2>
+        <h2>v0.2.3 · HDR / 杜比色彩修复</h2>
         <time datetime="2026-10-19">2026-10-19</time>
         <p>本版本修复杜比 Vision、HDR/HLG 和 HEVC 影片在浏览器中偏色、发灰或颜色异常的问题，并在 Web 全站显示当前版本号。</p>
         <div class="release-grid">
@@ -293,8 +326,8 @@ docs/assets/</code></pre>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP · v0.2.3</div>
-      <div class="footer-links"><a href="./index.html">官网首页</a><a href="./guide.html">Wiki 说明书</a><a href="#v022-resource">最新版本</a></div>
+      <div>© <span data-year></span> PanMVP · v0.2.4</div>
+      <div class="footer-links"><a href="./index.html">官网首页</a><a href="./guide.html">Wiki 说明书</a><a href="#v024-about">最新版本</a></div>
     </div>
   </footer>
   <script src="./assets/site.js" defer></script>

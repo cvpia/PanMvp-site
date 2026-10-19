@@ -27,6 +27,7 @@
     <aside class="doc-sidebar">
       <strong>PanMVP Wiki</strong>
       <a href="#quickstart">快速开始</a>
+      <a href="#about-version">关于版本</a>
       <a href="#installation">安装与升级</a>
       <a href="#docker">Docker 部署</a>
       <a href="#115">115 网盘</a>
@@ -44,7 +45,7 @@
 
     <div class="doc-content">
       <section class="doc-hero">
-        <p class="eyebrow">WIKI / PANMVP 0.2.3</p>
+        <p class="eyebrow">WIKI / PANMVP 0.2.4</p>
         <h1>PanMVP 使用说明书</h1>
         <p>从首次运行到 115 账号、播放、影院刮削、任务和日志排障。以 Windows 本机运行为主，同时提供官方 Docker 镜像。</p>
       </section>
@@ -62,6 +63,17 @@
 .\scripts\local.ps1 test
 .\scripts\local.ps1 stop</code></pre>
         <div class="notice safe"><strong>发布提示：</strong>PanMVP 官网与 Wiki 是纯静态站点。访问官网不会连接你的本机数据库，也不会下载或公开源码。</div>
+      </section>
+
+      <section class="doc-section" id="about-version">
+        <h2>关于版本</h2>
+        <p>登录后点击左侧导航“关于版本”，可以查看后端当前运行版本、最近版本更新、发布规则和官方资源入口。该页面通过 <code>/api/setup/status</code> 动态读取版本号，不依赖前端写死。</p>
+        <ul>
+          <li><strong>当前版本：</strong>显示正在运行的后端版本，并提供“刷新版本信息”按钮。</li>
+          <li><strong>版本记录：</strong>集中展示近期功能更新，每次代码改动递增补丁版本后同步新增记录。</li>
+          <li><strong>一致性提示：</strong>如果后端版本与前端版本记录不一致，页面会提示刷新或重新构建部署。</li>
+          <li><strong>官方链接：</strong>可打开官网 Wiki 和 Docker Hub 镜像标签页。</li>
+        </ul>
       </section>
 
       <section class="doc-section" id="installation">
@@ -88,7 +100,7 @@ npm run dev</code></pre>
 
       <section class="doc-section" id="docker">
         <h2>Docker 镜像部署（可选）</h2>
-        <p>除本机运行外，PanMVP 提供官方镜像 <code>xxoo520zls/panmvp:0.2.3</code>（滚动标签 <code>xxoo520zls/panmvp:latest</code>）。镜像内置 Python 3.12、FFmpeg、Vulkan 软件驱动（lavapipe）与构建好的前端，宿主机无需安装 Python、Node 或额外显卡驱动。</p>
+        <p>除本机运行外，PanMVP 提供官方镜像 <code>xxoo520zls/panmvp:0.2.4</code>（滚动标签 <code>xxoo520zls/panmvp:latest</code>）。镜像内置 Python 3.12、FFmpeg、Vulkan 软件驱动（lavapipe）与构建好的前端，宿主机无需安装 Python、Node 或额外显卡驱动。</p>
         <h3>启动容器</h3>
         <pre><code>docker run -d --name panmvp `
   --restart unless-stopped `
@@ -96,7 +108,7 @@ npm run dev</code></pre>
   -v panmvp-data:/data `
   -e PANMVP_SECRET_KEY="&lt;32 位以上随机字符串&gt;" `
   -e PANMVP_PUBLIC_BASE_URL="http://localhost:8787" `
-  xxoo520zls/panmvp:0.2.3</code></pre>
+  xxoo520zls/panmvp:0.2.4</code></pre>
         <p>浏览器打开 <code>http://localhost:8787</code>，首次运行同样会引导创建管理员账号。</p>
         <ul>
           <li><code>/data</code> 是唯一必须持久化的目录，保存 <code>panmvp.db</code>、<code>local.secret</code> 和 <code>logs/</code>。</li>
@@ -109,14 +121,14 @@ npm run dev</code></pre>
   -p 8787:8787 `
   -v panmvp-data:/data `
   -v D:\Media\strm:/strm `
-  xxoo520zls/panmvp:0.2.3</code></pre>
+  xxoo520zls/panmvp:0.2.4</code></pre>
         <p>然后在“系统设置 → STRM 生成”里把本地输出目录填成容器内路径 <code>/strm</code>，不要填宿主机路径 <code>D:\Media\strm</code>。</p>
         <h3>运维、升级与备份</h3>
         <pre><code>docker logs -f panmvp     # 查看应用与容器日志
 docker restart panmvp     # 重启
 docker rm -f panmvp       # 删除容器，数据卷保留
 
-docker pull xxoo520zls/panmvp:0.2.3
+docker pull xxoo520zls/panmvp:0.2.4
 docker rm -f panmvp       # 再用相同参数重新创建容器
 
 docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
@@ -330,7 +342,7 @@ docker run --rm -v panmvp-data:/data -v ${PWD}:/backup alpine `
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> PanMVP Wiki · v0.2.3</div>
+      <div>© <span data-year></span> PanMVP Wiki · v0.2.4</div>
       <div class="footer-links"><a href="./index.html">官网首页</a><a href="./changelog.html">更新日志</a><a href="#quickstart">快速开始</a></div>
     </div>
   </footer>
